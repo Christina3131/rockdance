@@ -1,0 +1,12 @@
+TO: info@rockdancecompany.ch
+SUBJECT: New Registration Request
+HEADERS:
+From: noreply@rockdancecompany.ch
+Reply-To: jane@example.com
+
+
+Name: Jane Doe
+Email: jane@example.com
+Phone: +41761234567
+Message: Hi, I’d like to join!
+
