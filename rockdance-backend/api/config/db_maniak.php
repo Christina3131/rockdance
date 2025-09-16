@@ -1,0 +1,17 @@
+<?php
+$host = 'dxen.myd.infomaniak.com';
+$db   = 'dxen_rockdance_db';
+$user = 'dxen_dbrockdance';
+$pass = 'RockDance@2024';
+$charset = 'utf8mb4_unicode_ci';
+
+
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+];
+
+$pdo = new PDO($dsn, $user, $pass, $options);
+?>
