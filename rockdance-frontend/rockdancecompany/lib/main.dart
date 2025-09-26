@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'rockdancecompany',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         ),
         home: MyHomePage(),
       ),
@@ -26,27 +26,126 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
+
+  var favorites = <WordPair>[];
+
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    } else {
+      favorites.add(current);
+    }
+    notifyListeners();
+  }
+
+  void getNext() {
+    current = WordPair.random();
+    notifyListeners();
+  }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Row(
+        children: [
+          SafeArea(
+            child: NavigationRail(
+              extended: false,
+              destinations: [
+                NavigationRailDestination(
+                  icon: Icon(Icons.home),
+                  label: Text('Home'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.favorite),
+                  label: Text('Favorites'),
+                ),
+              ],
+              selectedIndex: 0,
+              onDestinationSelected: (value) {
+                print('selected: $value');
+              },
+            ),
+          ),
+          Expanded(
+            child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: GeneratorPage(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
+class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
+    var pair = appState.current;
 
-    return Scaffold(
-      body: Column(
+    IconData icon;
+    if (appState.favorites.contains(pair)) {
+      icon = Icons.favorite;
+    } else {
+      icon = Icons.favorite_border;
+    }
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('A random super idea:'),
-          Text(appState.current.asLowerCase),
-          ElevatedButton(
-            onPressed: () {
-              print('button pressed!');
-            },
-            child: Text('Next'),
+          BigCard(pair: pair),
+          SizedBox(height: 10),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  appState.toggleFavorite();
+                },
+                icon: Icon(icon),
+                label: Text('Like'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+              ),
+            ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class BigCard extends StatelessWidget {
+  const BigCard({super.key, required this.pair});
+
+  final WordPair pair;
+
+  @override
+  Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    var style = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+
+    return Card(
+      color: theme.colorScheme.primary,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          pair.asLowerCase,
+          style: style,
+          semanticsLabel: pair.asPascalCase,
+        ),
       ),
     );
   }
