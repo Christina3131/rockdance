@@ -11,20 +11,27 @@ class HomePage extends StatelessWidget {
           icon: Icon(Icons.menu),
           onPressed: () {},
         ), // Menu icon on the left),
-        title: Text('Rock Dance Company'),
-        centerTitle: true,
-        titleTextStyle: TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.normal,
-          color: Colors.white,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/logo.jpg', height: 40),
+            const SizedBox(width: 8),
+          ],
         ),
+        centerTitle: true,
         backgroundColor: Color(0xFFdb338b),
         actions: [IconButton(icon: Icon(Icons.toggle_on), onPressed: () {})],
         elevation: 0,
       ),
+
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
+          Image.asset(
+            'assets/images/respect.jpg',
+            height: 700,
+            fit: BoxFit.cover,
+          ),
           Text(
             'Welcome to Rock Dance Company',
             style: Theme.of(context).textTheme.headlineMedium,
