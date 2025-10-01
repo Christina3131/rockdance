@@ -1,16 +1,41 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+
+  void _onTap(int index) {
+    setState(() => _currentIndex = index);
+
+    switch (index) {
+      case 0:
+        // Already on Home
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/about');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/calendar');
+        break;
+      case 3:
+        Navigator.pushNamed(context, '/contact');
+        break;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    const brand = Color(0xFFdb338b);
+
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {},
-        ), // Menu icon on the left),
+        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -19,9 +44,32 @@ class HomePage extends StatelessWidget {
           ],
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFFdb338b),
-        actions: [IconButton(icon: Icon(Icons.toggle_on), onPressed: () {})],
+        backgroundColor: brand,
+        actions: [
+          IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
+        ],
         elevation: 0,
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: brand,
+        unselectedItemColor: Colors.grey,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contact_mail),
+            label: 'Contact',
+          ),
+        ],
       ),
 
       body: ListView(
@@ -29,7 +77,7 @@ class HomePage extends StatelessWidget {
         children: [
           Image.asset(
             'assets/images/respect.jpg',
-            height: 700,
+            height: 250,
             fit: BoxFit.cover,
           ),
           Text(
