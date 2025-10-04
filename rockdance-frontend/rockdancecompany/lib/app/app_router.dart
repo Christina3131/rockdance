@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../public/home/home_page.dart';
-import '../public/about/about_page.dart';
-import '../public/calendar/calendar_page.dart';
-import '../public/contact/contact_page.dart';
+import 'package:rockdancecompany/public/home/home_page.dart';
+import 'package:rockdancecompany/public/about/about_page.dart';
+import 'package:rockdancecompany/public/calendar/calendar_page.dart';
+import 'package:rockdancecompany/public/contact/contact_page.dart';
 
-Route<dynamic> onGenerateRoute(RouteSettings settings) {
+Route<dynamic> appOnGenerateRoute(RouteSettings settings) {
   switch (settings.name) {
     case '/about':
       return _page(const AboutPage());

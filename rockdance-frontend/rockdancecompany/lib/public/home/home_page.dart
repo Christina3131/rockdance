@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rockdancecompany/public/accessories/navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,13 +20,10 @@ class _HomePageState extends State<HomePage> {
         break;
       case 1:
         Navigator.pushNamed(context, '/about');
-        break;
       case 2:
         Navigator.pushNamed(context, '/calendar');
-        break;
       case 3:
         Navigator.pushNamed(context, '/contact');
-        break;
     }
   }
 
@@ -35,7 +33,6 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: const Icon(Icons.menu), onPressed: () {}),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -48,8 +45,8 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
         ],
-        elevation: 0,
       ),
+      drawer: const Navbar(),
 
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -80,24 +77,14 @@ class _HomePageState extends State<HomePage> {
             height: 250,
             fit: BoxFit.cover,
           ),
+          const SizedBox(height: 15),
           Text(
-            'Welcome to Rock Dance Company',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/about'),
-            child: const Text('About Us'),
-          ),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/calendar'),
-            child: const Text('Calendar'),
-          ),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/contact'),
-            child: const Text('Contact Us'),
+            'Welcome to  the Rock Dance Company app !',
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+              color: const Color.fromARGB(255, 0, 0, 0),
+              fontWeight: FontWeight.normal,
+              fontSize: 20,
+            ),
           ),
         ],
       ),

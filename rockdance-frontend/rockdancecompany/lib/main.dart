@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'public/home/home_page.dart';
-import 'public/about/about_page.dart';
-import 'public/calendar/calendar_page.dart';
-import 'public/contact/contact_page.dart';
+import 'package:rockdancecompany/app/app_router.dart';
 
 void main() => runApp(const RockDanceApp());
 
@@ -14,14 +11,12 @@ class RockDanceApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rock Dance Company',
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.pink),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: const Color(0xFFdb338b),
+      ),
       initialRoute: '/',
-      routes: {
-        '/': (_) => const HomePage(),
-        '/about': (_) => const AboutPage(),
-        '/calendar': (_) => const CalendarPage(),
-        '/contact': (_) => const ContactPage(),
-      },
+      onGenerateRoute: appOnGenerateRoute, // <- use the router here
     );
   }
 }
