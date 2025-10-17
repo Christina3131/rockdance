@@ -16,7 +16,7 @@ class RockDanceApp extends StatelessWidget {
         colorSchemeSeed: const Color(0xFFdb338b),
       ),
       initialRoute: '/',
-      onGenerateRoute: appOnGenerateRoute, // <- use the router here
+      onGenerateRoute: appOnGenerateRoute,
     );
   }
 }

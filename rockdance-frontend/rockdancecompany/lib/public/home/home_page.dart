@@ -29,8 +29,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    const brand = Color(0xFFdb338b);
-
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -41,7 +39,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         centerTitle: true,
-        backgroundColor: brand,
+        backgroundColor: Color(0xFFe9EEF3),
         actions: [
           IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
         ],
@@ -52,14 +50,14 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: _onTap,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: brand,
-        unselectedItemColor: Colors.grey,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        selectedItemColor: Color.fromARGB(255, 0, 0, 0),
+        unselectedItemColor: Color(0xFFe9EEF3),
+        backgroundColor: Color(0xFFdb338b),
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
+            icon: Icon(Icons.calendar_month_outlined),
             label: 'Calendar',
           ),
           BottomNavigationBarItem(

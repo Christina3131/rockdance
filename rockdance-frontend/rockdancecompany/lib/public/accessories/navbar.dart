@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rockdancecompany/core/utils/url_utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
@@ -92,6 +93,37 @@ class Navbar extends StatelessWidget {
                 webUrl: 'https://www.youtube.com/@RockDanceCompany',
               );
             },
+          ),
+          SizedBox(height: 10),
+          ListTile(
+            leading: const Icon(Icons.email_outlined),
+            title: const Text('info@rockdancecompany.ch'),
+            onTap: () async {
+              Navigator.pop(context);
+
+              final Uri emailLaunchUri = Uri(
+                scheme: 'mailto',
+                path: 'info@rockdancecompany.ch',
+              );
+
+              if (await canLaunchUrl(emailLaunchUri)) {
+                await launchUrl(emailLaunchUri);
+              } else {
+                throw 'Could not launch $emailLaunchUri';
+              }
+            },
+          ),
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Text(
+              'Rock Dance Company\n'
+              'Case Postale 275 - 1213 Petit-Lancy 1',
+              style: TextStyle(
+                fontSize: 12,
+                color: Color.fromARGB(255, 50, 50, 50),
+              ),
+            ),
           ),
         ],
       ),
