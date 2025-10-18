@@ -23,7 +23,7 @@ class _AboutPageState extends State<AboutPage> {
     final uri = Uri.parse(
       '${ApiConfig.base}/news/list.php',
     ).replace(queryParameters: {'limit': '$limit', 'offset': '$offset'});
-
+    debugPrint('Get -> $uri');
     final res = await http.get(uri).timeout(const Duration(seconds: 12));
 
     if (res.statusCode != 200) {
