@@ -55,6 +55,7 @@ class Navbar extends StatelessWidget {
           const Divider(),
           ListTile(
             leading: const Icon(Icons.tiktok),
+            iconColor: Color(0xFFdb338b),
             title: const Text('TikTok'),
             onTap: () async {
               Navigator.pop(context);
@@ -84,7 +85,10 @@ class Navbar extends StatelessWidget {
           ),
 
           ListTile(
-            leading: const FaIcon(FontAwesomeIcons.youtube),
+            leading: const FaIcon(
+              FontAwesomeIcons.youtube,
+              color: Color(0xFFdb338b),
+            ),
             title: const Text('Youtube'),
             onTap: () async {
               Navigator.pop(context);
