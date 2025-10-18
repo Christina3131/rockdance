@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../config/db_maniak.php';
 
 $limit  = min((int)($_GET['limit'] ?? 20), 100);
 $offset = max((int)($_GET['offset'] ?? 0), 0);

@@ -34,8 +34,7 @@ $body    = "Name: {$in['name']} {$in['surname']}\n"
 $headers = "From: noreply@rockdancecompany.ch\r\n"
          . "Reply-To: {$in['email']}\r\n";
 
-// 4) Try to send email. On localhost it will likely fail,
-// so in DEV we just write to a log file and still return ok=true.
+// 4) Send email
 $sent = @mail($to, $subject, $body, $headers);
 
 if (!$sent) {
