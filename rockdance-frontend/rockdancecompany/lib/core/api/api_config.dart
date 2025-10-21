@@ -1,4 +1,4 @@
-// lib/core/api/api_config.dart
 class ApiConfig {
-  static const base = 'http://10.0.2.2:8080/rockdanceapp/rockdance-backend/api';
+  // Base URL of your live API (Infomaniak)
+  static const base = 'https://api.rockdancecompany.ch';
 }
