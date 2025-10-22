@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../config/db_maniak.php';
 
 // 1. Read JSON input
 $in = json_decode(file_get_contents('php://input'), true) ?? [];

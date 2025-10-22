@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../config/db_maniak.php';
 require_once __DIR__ . '/../utils/auth.php';
 
 requireAdmin();

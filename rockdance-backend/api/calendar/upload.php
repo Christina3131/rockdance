@@ -1,5 +1,5 @@
 <?php
-require_once '../config/db.php';
+require_once '../config/db_maniak.php';
 require_once '../utils/auth.php';
 
 requireAdmin(); // Only admins can add/update
