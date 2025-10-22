@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rockdancecompany/public/accessories/navbar.dart';
+import 'package:rockdancecompany/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         centerTitle: true,
-        backgroundColor: Color(0xFFe9EEF3),
+        backgroundColor: unselectedcolor,
         actions: [
           IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
         ],
@@ -50,9 +51,9 @@ class _HomePageState extends State<HomePage> {
         currentIndex: _currentIndex,
         onTap: _onTap,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: Color.fromARGB(255, 0, 0, 0),
-        unselectedItemColor: Color(0xFFe9EEF3),
-        backgroundColor: Color(0xFFdb338b),
+        selectedItemColor: selectedcolor,
+        unselectedItemColor: unselectedcolor,
+        backgroundColor: brand,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
@@ -79,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           Text(
             'Welcome to  the Rock Dance Company app !',
             style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              color: const Color.fromARGB(255, 0, 0, 0),
+              color: selectedcolor,
               fontWeight: FontWeight.normal,
               fontSize: 20,
             ),

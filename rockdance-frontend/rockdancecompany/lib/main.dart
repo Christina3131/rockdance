@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rockdancecompany/app/app_router.dart';
+import 'package:rockdancecompany/constants.dart';
 
 void main() => runApp(const RockDanceApp());
 
@@ -11,10 +12,7 @@ class RockDanceApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Rock Dance Company',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: const Color(0xFFdb338b),
-      ),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: brand),
       initialRoute: '/',
       onGenerateRoute: appOnGenerateRoute,
     );

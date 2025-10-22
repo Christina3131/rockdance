@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rockdancecompany/public/home/home_page.dart';
 import 'package:rockdancecompany/public/about/about_page.dart';
-import 'package:rockdancecompany/public/calendar/calendar_page.dart';
+import 'package:rockdancecompany/public/calendar/calendar_photos_page.dart';
 import 'package:rockdancecompany/public/contact/contact_page.dart';
 
 Route<dynamic> appOnGenerateRoute(RouteSettings settings) {
@@ -9,7 +9,7 @@ Route<dynamic> appOnGenerateRoute(RouteSettings settings) {
     case '/about':
       return _page(const AboutPage());
     case '/calendar':
-      return _page(const CalendarPage());
+      return _page(const CalendarPhotosPage());
     case '/contact':
       return _page(const ContactPage());
     case '/':
