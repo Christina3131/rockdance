@@ -117,10 +117,7 @@ class Navbar extends StatelessWidget {
             child: Text(
               'Rock Dance Company\n'
               'Case Postale 275 - 1213 Petit-Lancy 1',
-              style: TextStyle(
-                fontSize: 12,
-                color: Color.fromARGB(255, 50, 50, 50),
-              ),
+              style: TextStyle(fontSize: 12, color: iconcolor),
             ),
           ),
         ],
