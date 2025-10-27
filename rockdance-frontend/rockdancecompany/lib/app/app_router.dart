@@ -3,20 +3,37 @@ import 'package:rockdancecompany/public/home/home_page.dart';
 import 'package:rockdancecompany/public/about/about_page.dart';
 import 'package:rockdancecompany/public/calendar/calendar_photos_page.dart';
 import 'package:rockdancecompany/public/contact/contact_page.dart';
+import 'package:rockdancecompany/private/session/login_page.dart';
+import 'package:rockdancecompany/private/session/signup_page.dart';
+import 'package:rockdancecompany/private/session/members_home_page.dart';
+import 'package:rockdancecompany/constants.dart';
 
-Route<dynamic> appOnGenerateRoute(RouteSettings settings) {
-  switch (settings.name) {
-    case '/about':
-      return _page(const AboutPage());
-    case '/calendar':
-      return _page(const CalendarPhotosPage());
-    case '/contact':
-      return _page(const ContactPage());
-    case '/':
-    default:
-      return _page(const HomePage());
-  }
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const RockDanceApp());
 }
 
-MaterialPageRoute _page(Widget child) =>
-    MaterialPageRoute(builder: (_) => child);
+class RockDanceApp extends StatelessWidget {
+  const RockDanceApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Rock Dance Company',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: brand),
+      // Start on Home:
+      initialRoute: '/',
+      // Static routes:
+      routes: {
+        '/': (_) => const HomePage(),
+        '/about': (_) => const AboutPage(),
+        '/calendar': (_) => const CalendarPhotosPage(),
+        '/contact': (_) => const ContactPage(),
+        '/login': (_) => const LoginPage(),
+        '/signup': (_) => const SignupPage(),
+        '/members': (_) => const MembersHomePage(),
+      },
+    );
+  }
+}

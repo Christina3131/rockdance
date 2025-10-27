@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:rockdancecompany/app/app_router.dart';
-import 'package:rockdancecompany/constants.dart';
+import 'package:rockdancecompany/public/home/home_page.dart';
+import 'package:rockdancecompany/public/about/about_page.dart';
+import 'package:rockdancecompany/public/calendar/calendar_photos_page.dart';
+import 'package:rockdancecompany/public/contact/contact_page.dart';
+import 'package:rockdancecompany/private/session/login_page.dart';
+import 'package:rockdancecompany/private/session/signup_page.dart';
+import 'package:rockdancecompany/private/session/members_home_page.dart';
 
-void main() => runApp(const RockDanceApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const RockDanceApp());
+}
 
 class RockDanceApp extends StatelessWidget {
   const RockDanceApp({super.key});
@@ -10,11 +18,21 @@ class RockDanceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Rock Dance Company',
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: brand),
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.pink),
+      // Start on Home:
       initialRoute: '/',
-      onGenerateRoute: appOnGenerateRoute,
+      // Static routes:
+      routes: {
+        '/': (_) => const HomePage(),
+        '/about': (_) => const AboutPage(),
+        '/calendar': (_) => const CalendarPhotosPage(),
+        '/contact': (_) => const ContactPage(),
+        '/login': (_) => const LoginPage(),
+        '/signup': (_) => const SignupPage(),
+        '/members': (_) => const MembersHomePage(),
+      },
     );
   }
 }

@@ -40,7 +40,8 @@ class Navbar extends StatelessWidget {
             leading: const Icon(Icons.login),
             title: const Text('login'),
             onTap: () {
-              Navigator.pushNamed(context, '/');
+              Navigator.pop(context); // close drawer
+              Navigator.pushNamed(context, '/login'); // go to login
             },
           ),
 

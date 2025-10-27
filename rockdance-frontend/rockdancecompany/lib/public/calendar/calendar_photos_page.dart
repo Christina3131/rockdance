@@ -18,7 +18,6 @@ class CalendarPhotosPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Calendar'), backgroundColor: brand),
       body: RefreshIndicator(
         onRefresh: () async {
-          // simple delay to show the spinner; images will refetch when rebuilt
           await Future<void>.delayed(const Duration(milliseconds: 400));
         },
         child: ListView.separated(
@@ -48,7 +47,10 @@ class _CalendarImage extends StatelessWidget {
       child: Image.network(
         url,
         width: double.infinity,
-        fit: BoxFit.fitWidth, // fill width, keep aspect ratio
+        fit: BoxFit.fitWidth,
+        cacheWidth: MediaQuery.of(
+          context,
+        ).size.width.toInt(), // fill width, keep aspect ratio
         // nice loading spinner
         loadingBuilder: (context, child, progress) {
           if (progress == null) return child;
