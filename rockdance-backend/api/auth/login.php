@@ -13,10 +13,19 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $pass === '') {
 
 $stmt = $pdo->prepare("SELECT id,name,email,password,is_admin,is_active FROM users WHERE email=?");
 $stmt->execute([$email]);
-$user = $stmt->fetch();
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if (!$user || !$user['is_active'] || !password_verify($pass, $user['password'])) {
+if (!$user) {
   json_error(401, 'bad_credentials', 'Invalid email or password.');
+}
+
+if (!password_verify($pass, $user['password'])) {
+  json_error(401, 'bad_credentials', 'Invalid email or password.');
+}
+
+if (!(int)$user['is_active']) {
+  // <-- important: specific error for pending accounts
+  json_error(403, 'not_active', 'Your account is awaiting admin approval.');
 }
 
 session_regenerate_id(true);

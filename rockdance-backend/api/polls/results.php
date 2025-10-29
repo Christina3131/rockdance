@@ -1,42 +1,28 @@
 <?php
-header('Content-Type: application/json');
-
+// api/polls/results.php
+header('Content-Type: application/json; charset=utf-8');
+ini_set('display_errors','0');
 require_once __DIR__ . '/../config/db_maniak.php';
 require_once __DIR__ . '/../utils/auth.php';
 
 requireAdmin();
 
-$pollId = (int)($_GET['poll_id'] ?? 0);
-if ($pollId <= 0) {
-  http_response_code(400);
-  echo json_encode(['ok'=>false,'error'=>'missing_poll_id']);
-  exit;
-}
+$pollId = isset($_GET['poll_id']) ? (int)$_GET['poll_id'] : 0;
+if ($pollId <= 0) { http_response_code(400); echo json_encode(['ok'=>false,'error'=>'invalid_poll']); exit; }
 
-try {
-  $poll = $pdo->prepare("SELECT id, question, created_at FROM polls WHERE id=?");
-  $poll->execute([$pollId]);
-  $p = $poll->fetch();
+$q = $pdo->prepare("
+  SELECT o.id as option_id, o.label, COALESCE(v.cnt,0) as votes
+  FROM poll_options o
+  LEFT JOIN (
+    SELECT option_id, COUNT(*) as cnt
+    FROM poll_votes
+    WHERE poll_id=?
+    GROUP BY option_id
+  ) v ON v.option_id = o.id
+  WHERE o.poll_id=?
+  ORDER BY o.ord ASC
+");
+$q->execute([$pollId, $pollId]);
+$rows = $q->fetchAll(PDO::FETCH_ASSOC);
 
-  if (!$p) {
-    http_response_code(404);
-    echo json_encode(['ok'=>false,'error'=>'poll_not_found']);
-    exit;
-  }
-
-  $rows = $pdo->prepare("
-    SELECT o.id AS option_id, o.option_text, COUNT(v.id) AS votes
-    FROM poll_options o
-    LEFT JOIN poll_votes v ON v.option_id = o.id
-    WHERE o.poll_id = ?
-    GROUP BY o.id, o.option_text
-    ORDER BY o.id
-  ");
-  $rows->execute([$pollId]);
-  $p['results'] = $rows->fetchAll();
-
-  echo json_encode(['ok'=>true,'poll'=>$p]);
-} catch (Throwable $e) {
-  http_response_code(500);
-  echo json_encode(['ok'=>false,'error'=>'db_error','detail'=>$e->getMessage()]);
-}
+echo json_encode(['ok'=>true,'poll_id'=>$pollId,'results'=>$rows], JSON_UNESCAPED_UNICODE);
