@@ -1,41 +1,65 @@
 import 'dart:convert';
-import 'package:rockdancecompany/private/session/session_client.dart';
+import 'package:http/http.dart' as http;
+import 'package:rockdancecompany/core/api/api_config.dart';
+import 'session_client.dart';
 
 class AuthApi {
-  final _c = SessionClient();
+  final _sc = SessionClient();
+  Uri _u(String p) => Uri.parse('${ApiConfig.base}$p');
 
-  Future<Map<String, dynamic>> register({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
-    final r = await _c.post('auth/register.php', {
-      'name': name,
-      'email': email,
-      'password': password,
-    });
-    final j = jsonDecode(r.body) as Map<String, dynamic>;
-    if (r.statusCode >= 200 && r.statusCode < 300) return j;
-    throw Exception('Register failed: ${r.statusCode} ${r.body}');
-  }
-
-  Future<Map<String, dynamic>> login({
-    required String email,
-    required String password,
-  }) async {
-    final r = await _c.post('auth/login.php', {
-      'email': email,
-      'password': password,
-    });
-    final j = jsonDecode(r.body) as Map<String, dynamic>;
-    if (r.statusCode >= 200 && r.statusCode < 300 && j['ok'] == true) return j;
-    throw Exception(j['error'] ?? 'Login failed: ${r.statusCode}');
+  Future<Map<String, dynamic>> login(String email, String password) async {
+    final res = await _sc.post(
+      _u('/auth/login.php'),
+      body: jsonEncode({'email': email.trim(), 'password': password}),
+    );
+    final j = _decode(res);
+    if (res.statusCode == 200 && j['ok'] == true) return j;
+    throw AuthException(j['error'] ?? 'login_failed', j['hint']);
   }
 
   Future<void> logout() async {
-    // optional: call an auth/logout.php that destroys the PHP session
-    await _c.clearSession();
+    try {
+      final res = await _sc.post(_u('/auth/logout.php'), body: jsonEncode({}));
+      final j = _safeDecode(res);
+      if (res.statusCode == 200 && j?['ok'] == true) {
+        await _sc.clear();
+      } else {
+        // still clear locally
+        await _sc.clear();
+      }
+    } catch (_) {
+      await _sc.clear();
+    }
   }
 
-  bool get isLoggedIn => _c.hasSession;
+  Future<Map<String, dynamic>> me() async {
+    final res = await _sc.get(_u('/auth/me.php'));
+    final j = _decode(res);
+    if (res.statusCode == 200 && j['ok'] == true) return j;
+    throw AuthException(j['error'] ?? 'not_authenticated', j['hint']);
+  }
+
+  Future<void> register({required String name, required String email, required String password}) async {
+    final res = await _sc.post(
+      _u('/auth/register.php'),
+      body: jsonEncode({'name': name.trim(), 'email': email.trim(), 'password': password}),
+    );
+    final j = _decode(res);
+    if (res.statusCode == 200 && j['ok'] == true) return;
+    throw AuthException(j['error'] ?? 'register_failed', j['hint']);
+  }
+
+  Map<String, dynamic> _decode(http.Response r) =>
+      jsonDecode(r.body) as Map<String, dynamic>;
+  Map<String, dynamic>? _safeDecode(http.Response r) {
+    try { return jsonDecode(r.body) as Map<String, dynamic>; } catch (_) { return null; }
+  }
+}
+
+class AuthException implements Exception {
+  final String code;
+  final String? hint;
+  AuthException(this.code, this.hint);
+  @override
+  String toString() => 'AuthException($code${hint!=null?": $hint":""})';
 }

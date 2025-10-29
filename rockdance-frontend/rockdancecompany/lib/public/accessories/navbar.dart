@@ -45,13 +45,6 @@ class Navbar extends StatelessWidget {
             },
           ),
 
-          ListTile(
-            leading: const Icon(Icons.calendar_month),
-            title: const Text('Calendar'),
-            onTap: () {
-              Navigator.pushNamed(context, '/calendar');
-            },
-          ),
           SizedBox(height: 10),
           const Divider(),
           ListTile(

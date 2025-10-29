@@ -101,7 +101,17 @@ class _AboutPageState extends State<AboutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('About Us'), backgroundColor: brand),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/logo.jpg', height: 40),
+            const SizedBox(width: 8),
+          ],
+        ),
+        centerTitle: true,
+        backgroundColor: unselectedcolor,
+      ),
       body: RefreshIndicator(
         onRefresh: _load,
         child: _loading

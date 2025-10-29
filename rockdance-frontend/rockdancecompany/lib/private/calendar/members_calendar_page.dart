@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rockdancecompany/constants.dart';
 
-class CalendarPhotosPage extends StatelessWidget {
-  const CalendarPhotosPage({super.key});
+class MembersCalendarPage extends StatelessWidget {
+  const MembersCalendarPage({super.key});
 
   static const _imageUrls = [
-    'https://api.rockdancecompany.ch/calendar/img6.png',
-    'https://api.rockdancecompany.ch/calendar/img7.png',
+    'https://api.rockdancecompany.ch/calendar/img1.png',
+    'https://api.rockdancecompany.ch/calendar/img2.png',
+    'https://api.rockdancecompany.ch/calendar/img3.png',
+    'https://api.rockdancecompany.ch/calendar/img4.png',
+    'https://api.rockdancecompany.ch/calendar/img5.png',
   ];
 
   @override

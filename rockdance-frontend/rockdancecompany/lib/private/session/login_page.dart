@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'auth_api.dart'; // assumes AuthApi throws AuthException(code, hint)
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
-
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
@@ -10,84 +10,105 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _form = GlobalKey<FormState>();
   final _email = TextEditingController();
-  final _password = TextEditingController();
-  bool _submitting = false;
+  final _pass = TextEditingController();
+  bool _busy = false;
 
   @override
   void dispose() {
     _email.dispose();
-    _password.dispose();
+    _pass.dispose();
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  Future<void> _doLogin() async {
     if (!_form.currentState!.validate()) return;
+    setState(() => _busy = true);
+    try {
+      // normalize email before sending
+      final email = _email.text.trim().toLowerCase();
+      final pass = _pass.text;
 
-    setState(() => _submitting = true);
+      await AuthApi().login(email, pass);
 
-    // DEMO: no API. Just pretend it worked and go to members.
-    await Future.delayed(const Duration(milliseconds: 400));
-
-    if (!mounted) return;
-    Navigator.pushReplacementNamed(context, '/members'); // success
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/members');
+    } on AuthException catch (e) {
+      if (!mounted) return;
+      String msg;
+      switch (e.code) {
+        case 'not_active':
+          msg = 'Your account is awaiting admin approval.';
+          break;
+        case 'bad_credentials':
+          msg = 'Invalid email or password.';
+          break;
+        case 'invalid_input':
+          msg = 'Please enter a valid email and password.';
+          break;
+        default:
+          msg = e.hint?.isNotEmpty == true
+              ? e.hint!
+              : 'Login failed. Please try again.';
+      }
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Network or server error: $e')));
+    } finally {
+      if (mounted) setState(() => _busy = false);
+    }
   }
-
-  String? _req(String? v) =>
-      (v == null || v.trim().isEmpty) ? 'Required' : null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: SafeArea(
-        child: Form(
-          key: _form,
-          child: ListView(
-            padding: const EdgeInsets.all(16),
-            children: [
-              TextFormField(
-                controller: _email,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) return 'Required';
-                  final ok = RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(v);
-                  return ok ? null : 'Invalid email';
-                },
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _password,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-                validator: _req,
-              ),
-              const SizedBox(height: 20),
-              FilledButton(
-                onPressed: _submitting ? null : _submit,
-                child: _submitting
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Login'),
-              ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup');
-                },
-                child: const Text("Don't have an account? Sign up"),
-              ),
-            ],
-          ),
+      appBar: AppBar(title: const Text('Log in')),
+      body: Form(
+        key: _form,
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            TextFormField(
+              controller: _email,
+              decoration: const InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) return 'Required';
+                final ok = RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(v.trim());
+                return ok ? null : 'Invalid email';
+              },
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: _pass,
+              decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
+              textInputAction: TextInputAction.done,
+              onFieldSubmitted: (_) => _busy ? null : _doLogin(),
+              validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+            ),
+            const SizedBox(height: 20),
+            FilledButton(
+              onPressed: _busy ? null : _doLogin,
+              child: _busy
+                  ? const SizedBox(
+                      width: 18,
+                      height: 18,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text('Log in'),
+            ),
+            const SizedBox(height: 12),
+            TextButton(
+              onPressed: _busy
+                  ? null
+                  : () => Navigator.pushNamed(context, '/signup'),
+              child: const Text('No account? Sign up'),
+            ),
+          ],
         ),
       ),
     );
