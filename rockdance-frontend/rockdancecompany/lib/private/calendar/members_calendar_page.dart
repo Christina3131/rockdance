@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rockdancecompany/constants.dart';
+import 'package:RockDanceCompany/constants.dart';
 
 class MembersCalendarPage extends StatelessWidget {
   const MembersCalendarPage({super.key});
@@ -41,35 +41,40 @@ class _CalendarImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Image takes full width; height adapts to keep aspect ratio.
+    final mq = MediaQuery.of(context);
+    final screenWidthPx = (mq.size.width * mq.devicePixelRatio).round();
+
     return Container(
-      color: selectedcolor, // subtle bg while loading
-      child: Image.network(
-        url,
-        width: double.infinity,
-        fit: BoxFit.fitWidth,
-        cacheWidth: MediaQuery.of(
-          context,
-        ).size.width.toInt(), // fill width, keep aspect ratio
-        // nice loading spinner
-        loadingBuilder: (context, child, progress) {
-          if (progress == null) return child;
-          return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7, // reserve space
-            child: const Center(child: CircularProgressIndicator()),
+      color: selectedcolor,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Image.network(
+            url,
+            // Decode close to the physical display width to avoid blurry scaling
+            cacheWidth: screenWidthPx,
+            width: double.infinity,
+            fit: BoxFit.fitWidth,
+            filterQuality: FilterQuality.high, // better sampling
+            // nice loading spinner
+            loadingBuilder: (context, child, progress) {
+              if (progress == null) return child;
+              return SizedBox(
+                height: mq.size.height * 0.7,
+                child: const Center(child: CircularProgressIndicator()),
+              );
+            },
+            errorBuilder: (context, error, stack) => SizedBox(
+              height: mq.size.height * 0.6,
+              child: const Center(
+                child: Icon(
+                  Icons.broken_image_outlined,
+                  size: 48,
+                  color: unselectedcolor,
+                ),
+              ),
+            ),
           );
         },
-        // show a simple error state if the image can't load
-        errorBuilder: (context, error, stack) => SizedBox(
-          height: MediaQuery.of(context).size.height * 0.6,
-          child: const Center(
-            child: Icon(
-              Icons.broken_image_outlined,
-              size: 48,
-              color: unselectedcolor,
-            ),
-          ),
-        ),
       ),
     );
   }

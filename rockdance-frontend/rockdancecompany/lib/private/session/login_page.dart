@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'auth_api.dart'; // assumes AuthApi throws AuthException(code, hint)
+import 'auth_api.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

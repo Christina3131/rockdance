@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:rockdancecompany/public/home/home_page.dart';
-import 'package:rockdancecompany/public/about/about_page.dart';
-import 'package:rockdancecompany/public/calendar/calendar_photos_page.dart';
-import 'package:rockdancecompany/public/contact/contact_page.dart';
-import 'package:rockdancecompany/private/session/login_page.dart';
-import 'package:rockdancecompany/private/session/signup_page.dart';
-import 'package:rockdancecompany/private/session/members_home_page.dart';
-import 'package:rockdancecompany/private/polls/polls_page.dart';
-import 'package:rockdancecompany/private/calendar/members_calendar_page.dart';
-import 'package:rockdancecompany/private/meetings/meetings_page.dart';
+
+import 'package:RockDanceCompany/public/home/home_page.dart';
+import 'package:RockDanceCompany/public/about/about_page.dart';
+import 'package:RockDanceCompany/public/calendar/calendar_photos_page.dart';
+import 'package:RockDanceCompany/public/contact/contact_page.dart';
+import 'package:RockDanceCompany/private/session/login_page.dart';
+import 'package:RockDanceCompany/private/session/signup_page.dart';
+import 'package:RockDanceCompany/private/session/members_home_page.dart';
+import 'package:RockDanceCompany/private/session/session_client.dart';
+import 'package:RockDanceCompany/private/polls/polls_page.dart';
+import 'package:RockDanceCompany/private/calendar/members_calendar_page.dart';
+import 'package:RockDanceCompany/private/meetings/meetings_page.dart';
+import 'package:RockDanceCompany/constants/constants.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +26,7 @@ class RockDanceApp extends StatelessWidget {
     return MaterialApp(
       title: 'Rock Dance Company',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.pink),
+      theme: ThemeData(useMaterial3: true, colorSchemeSeed: brand),
       // Start on Home:
       initialRoute: '/',
       // Static routes:

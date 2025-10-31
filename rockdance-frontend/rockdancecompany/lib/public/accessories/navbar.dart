@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rockdancecompany/core/utils/url_utils.dart';
+import 'package:RockDanceCompany/core/utils/url_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:rockdancecompany/constants.dart';
+import 'package:RockDanceCompany/constants.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({super.key});

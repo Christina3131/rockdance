@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:rockdancecompany/core/api/api_config.dart';
+import 'package:RockDanceCompany/core/api/api_config.dart';
 import 'session_client.dart';
 
 class AuthApi {
@@ -39,10 +39,18 @@ class AuthApi {
     throw AuthException(j['error'] ?? 'not_authenticated', j['hint']);
   }
 
-  Future<void> register({required String name, required String email, required String password}) async {
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
     final res = await _sc.post(
       _u('/auth/register.php'),
-      body: jsonEncode({'name': name.trim(), 'email': email.trim(), 'password': password}),
+      body: jsonEncode({
+        'name': name.trim(),
+        'email': email.trim(),
+        'password': password,
+      }),
     );
     final j = _decode(res);
     if (res.statusCode == 200 && j['ok'] == true) return;
@@ -52,7 +60,11 @@ class AuthApi {
   Map<String, dynamic> _decode(http.Response r) =>
       jsonDecode(r.body) as Map<String, dynamic>;
   Map<String, dynamic>? _safeDecode(http.Response r) {
-    try { return jsonDecode(r.body) as Map<String, dynamic>; } catch (_) { return null; }
+    try {
+      return jsonDecode(r.body) as Map<String, dynamic>;
+    } catch (_) {
+      return null;
+    }
   }
 }
 
@@ -61,5 +73,5 @@ class AuthException implements Exception {
   final String? hint;
   AuthException(this.code, this.hint);
   @override
-  String toString() => 'AuthException($code${hint!=null?": $hint":""})';
+  String toString() => 'AuthException($code${hint != null ? ": $hint" : ""})';
 }

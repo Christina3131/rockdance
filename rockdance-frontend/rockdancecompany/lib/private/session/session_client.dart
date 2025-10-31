@@ -7,7 +7,7 @@ class SessionClient {
   SessionClient._();
 
   final http.Client _client = http.Client();
-  String? _cookie; // PHPSESSID=...
+  String? _cookie;
 
   Future<void> init() async {
     final prefs = await SharedPreferences.getInstance();
@@ -16,7 +16,7 @@ class SessionClient {
 
   Future<void> _saveCookie(String? cookie) async {
     if (cookie == null) return;
-    // keep only the first cookie (PHPSESSID=...) part
+
     final raw = cookie.split(';').first.trim();
     _cookie = raw;
     final prefs = await SharedPreferences.getInstance();

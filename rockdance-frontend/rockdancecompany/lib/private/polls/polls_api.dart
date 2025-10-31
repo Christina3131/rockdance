@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:rockdancecompany/core/api/api_config.dart';
+import 'package:RockDanceCompany/core/api/api_config.dart';
 import '../session/session_client.dart';
 
 class PollsApi {

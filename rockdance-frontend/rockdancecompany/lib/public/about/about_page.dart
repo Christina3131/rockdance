@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:rockdancecompany/core/api/api_config.dart';
-import 'package:rockdancecompany/constants.dart'; // expects brand, selectedcolor, iconcolor
+import 'package:RockDanceCompany/core/api/api_config.dart';
+import 'package:RockDanceCompany/constants.dart'; // expects brand, selectedcolor, iconcolor
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});

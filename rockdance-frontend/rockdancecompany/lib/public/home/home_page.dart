@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rockdancecompany/public/accessories/navbar.dart';
-import 'package:rockdancecompany/constants.dart';
+import 'package:RockDanceCompany/public/accessories/navbar.dart';
+import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:RockDanceCompany/constants/text_constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -11,6 +12,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
+  String currentLang = 'en';
+
+  void _toggleLanguage() {
+    setState(() {
+      currentLang = currentLang == 'en' ? 'fr' : 'en';
+    });
 
   void _onTap(int index) {
     setState(() => _currentIndex = index);
@@ -73,16 +80,36 @@ class _HomePageState extends State<HomePage> {
         children: [
           Image.asset(
             'assets/images/respect.jpg',
-            height: 250,
+            height: 170,
             fit: BoxFit.cover,
           ),
           const SizedBox(height: 15),
+
+          // Title (Welcome message)
           Text(
-            'Welcome to  the Rock Dance Company app !',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+            'Welcome to the Rock Dance Company app!',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: selectedcolor,
-              fontWeight: FontWeight.normal,
-              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+            ),
+          ),
+
+          const SizedBox(height: 15),
+
+          // Description text
+          Text(
+            'In this app, you can discover more about our club, stay updated with the calendar of events, '
+            'and get in touch with us easily.\n\n'
+            'You can login if you are a member and explore what awaits you on the other side of the app.\n\n'
+            'In the sidebar, you can also access our social media platforms in just one click.',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: selectedcolor,
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+              height: 1.6,
             ),
           ),
         ],
