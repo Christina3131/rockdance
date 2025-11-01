@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:RockDanceCompany/constants.dart';
+import 'package:RockDanceCompany/constants/constants.dart';
 
 class MembersHomePage extends StatelessWidget {
   const MembersHomePage({super.key});

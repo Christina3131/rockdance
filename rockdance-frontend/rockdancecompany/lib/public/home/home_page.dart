@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:RockDanceCompany/public/accessories/navbar.dart';
 import 'package:RockDanceCompany/constants/constants.dart';
-import 'package:RockDanceCompany/constants/text_constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,12 +11,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
-  String currentLang = 'en';
-
-  void _toggleLanguage() {
-    setState(() {
-      currentLang = currentLang == 'en' ? 'fr' : 'en';
-    });
 
   void _onTap(int index) {
     setState(() => _currentIndex = index);

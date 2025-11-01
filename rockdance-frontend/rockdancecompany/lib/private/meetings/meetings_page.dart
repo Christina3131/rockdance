@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:RockDanceCompany/constants.dart';
+import 'package:RockDanceCompany/constants/constants.dart';
 
 class MeetingsPage extends StatelessWidget {
   const MeetingsPage({super.key});

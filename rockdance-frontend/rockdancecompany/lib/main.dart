@@ -7,11 +7,12 @@ import 'package:RockDanceCompany/public/contact/contact_page.dart';
 import 'package:RockDanceCompany/private/session/login_page.dart';
 import 'package:RockDanceCompany/private/session/signup_page.dart';
 import 'package:RockDanceCompany/private/session/members_home_page.dart';
-import 'package:RockDanceCompany/private/session/session_client.dart';
+//import 'package:RockDanceCompany/private/session/session_client.dart';
 import 'package:RockDanceCompany/private/polls/polls_page.dart';
 import 'package:RockDanceCompany/private/calendar/members_calendar_page.dart';
 import 'package:RockDanceCompany/private/meetings/meetings_page.dart';
 import 'package:RockDanceCompany/constants/constants.dart';
+//import 'package:RockDanceCompany/constants/text_constants.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

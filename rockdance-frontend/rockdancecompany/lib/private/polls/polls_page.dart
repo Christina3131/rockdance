@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'polls_api.dart';
 import 'polls_vote_page.dart';
-import 'package:RockDanceCompany/constants.dart';
+import 'package:RockDanceCompany/constants/constants.dart';
 
 class PollsPage extends StatefulWidget {
   const PollsPage({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'polls_api.dart';
-import 'package:RockDanceCompany/constants.dart';
+import 'package:RockDanceCompany/constants/constants.dart';
 
 class PollsVotePage extends StatefulWidget {
   final Map<String, dynamic> poll;
