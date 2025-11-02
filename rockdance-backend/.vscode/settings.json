@@ -1,0 +1,6 @@
+{
+    "editor.fontSize": 14,
+    "terminal.integrated.env.windows": {
+        "PATH": "${env:PATH};C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin"
+    }
+}

@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'email'    => $user['email'],
                     'is_admin' => (bool)$user['is_admin'],
                 ];
-                // make sure session is flushed before redirect
+
                 session_write_close();
                 header('Location: /polls/admin_new.php');
                 exit;
