@@ -1,9 +1,11 @@
+// lib/private/calendar/members_calendar_page.dart
 import 'package:flutter/material.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class MembersCalendarPage extends StatelessWidget {
   const MembersCalendarPage({super.key});
 
+  // Image URLs for the calendar photos
   static const _imageUrls = [
     'https://api.rockdancecompany.ch/calendar/img1.png',
     'https://api.rockdancecompany.ch/calendar/img2.png',
@@ -35,6 +37,7 @@ class MembersCalendarPage extends StatelessWidget {
   }
 }
 
+// Widget to display a calendar image from a URL
 class _CalendarImage extends StatelessWidget {
   const _CalendarImage({required this.url});
   final String url;
@@ -55,14 +58,12 @@ class _CalendarImage extends StatelessWidget {
             width: double.infinity,
             fit: BoxFit.fitWidth,
             filterQuality: FilterQuality.high, // better sampling
-            // nice loading spinner
+            // loading
             loadingBuilder: (context, child, progress) {
               if (progress == null) return child;
-              return SizedBox(
-                height: mq.size.height * 0.7,
-                child: const Center(child: CircularProgressIndicator()),
-              );
+              return const Center(child: CircularProgressIndicator());
             },
+
             errorBuilder: (context, error, stack) => SizedBox(
               height: mq.size.height * 0.6,
               child: const Center(

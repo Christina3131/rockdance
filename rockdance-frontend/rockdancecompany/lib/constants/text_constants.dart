@@ -1,3 +1,5 @@
+// lib/constants/text_constants.dart
+//not used yet
 class AppText {
   static const en = {
     'welcome_title': 'Welcome to the Rock Dance Company app!',

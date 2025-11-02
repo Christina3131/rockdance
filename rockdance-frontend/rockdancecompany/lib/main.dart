@@ -1,21 +1,27 @@
+// lib/main.dart, connecting all pages and setting up routing
 import 'package:flutter/material.dart';
 
-import 'package:RockDanceCompany/public/home/home_page.dart';
-import 'package:RockDanceCompany/public/about/about_page.dart';
-import 'package:RockDanceCompany/public/calendar/calendar_photos_page.dart';
-import 'package:RockDanceCompany/public/contact/contact_page.dart';
-import 'package:RockDanceCompany/private/session/login_page.dart';
-import 'package:RockDanceCompany/private/session/signup_page.dart';
-import 'package:RockDanceCompany/private/session/members_home_page.dart';
-//import 'package:RockDanceCompany/private/session/session_client.dart';
-import 'package:RockDanceCompany/private/polls/polls_page.dart';
-import 'package:RockDanceCompany/private/calendar/members_calendar_page.dart';
-import 'package:RockDanceCompany/private/meetings/meetings_page.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
-//import 'package:RockDanceCompany/constants/text_constants.dart';
+import 'package:rockdancecompany/public/home/home_page.dart';
+import 'package:rockdancecompany/public/about/about_page.dart';
+import 'package:rockdancecompany/public/calendar/calendar_photos_page.dart';
+import 'package:rockdancecompany/public/contact/contact_page.dart';
 
-void main() {
+import 'package:rockdancecompany/private/session/login_page.dart';
+import 'package:rockdancecompany/private/session/signup_page.dart';
+import 'package:rockdancecompany/private/session/members_home_page.dart';
+import 'package:rockdancecompany/private/session/session_client.dart';
+
+import 'package:rockdancecompany/private/polls/polls_page.dart';
+import 'package:rockdancecompany/private/calendar/members_calendar_page.dart';
+import 'package:rockdancecompany/private/meetings/meetings_page.dart';
+
+import 'package:rockdancecompany/constants/constants.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await SessionClient().init();
+
   runApp(const RockDanceApp());
 }
 
@@ -28,9 +34,7 @@ class RockDanceApp extends StatelessWidget {
       title: 'Rock Dance Company',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: brand),
-      // Start on Home:
-      initialRoute: '/',
-      // Static routes:
+
       routes: {
         '/': (_) => const HomePage(),
         '/about': (_) => const AboutPage(),
@@ -38,10 +42,35 @@ class RockDanceApp extends StatelessWidget {
         '/contact': (_) => const ContactPage(),
         '/login': (_) => const LoginPage(),
         '/signup': (_) => const SignupPage(),
-        '/members': (_) => const MembersHomePage(),
-        '/members/polls': (_) => const PollsPage(),
-        '/members/calendar': (_) => const MembersCalendarPage(),
-        '/members/meetings': (_) => const MeetingsPage(),
+      },
+
+      onGenerateRoute: (settings) {
+        Widget? page;
+
+        bool isLoggedIn() =>
+            SessionClient().cookie != null &&
+            SessionClient().cookie!.isNotEmpty;
+
+        switch (settings.name) {
+          case '/members':
+            page = isLoggedIn() ? const MembersHomePage() : const LoginPage();
+            break;
+          case '/members/polls':
+            page = isLoggedIn() ? const PollsPage() : const LoginPage();
+            break;
+          case '/members/calendar':
+            page = isLoggedIn()
+                ? const MembersCalendarPage()
+                : const LoginPage();
+            break;
+          case '/members/meetings':
+            page = isLoggedIn() ? const MeetingsPage() : const LoginPage();
+            break;
+          default:
+            return null;
+        }
+
+        return MaterialPageRoute(builder: (_) => page!);
       },
     );
   }

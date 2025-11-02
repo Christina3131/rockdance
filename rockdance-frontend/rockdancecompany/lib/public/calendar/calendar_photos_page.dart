@@ -1,18 +1,34 @@
+// lib/public/calendar/calendar_photos_page.dart
 import 'package:flutter/material.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class CalendarPhotosPage extends StatelessWidget {
   const CalendarPhotosPage({super.key});
 
+  // Image URLs for the calendar photos
   static const _imageUrls = [
     'https://api.rockdancecompany.ch/calendar/img6.png',
     'https://api.rockdancecompany.ch/calendar/img7.png',
   ];
 
+  //aesthetics
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Calendar'), backgroundColor: brand),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/logo.jpg', height: 40),
+            const SizedBox(width: 8),
+          ],
+        ),
+        centerTitle: true,
+        backgroundColor: unselectedcolor,
+        actions: [
+          IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future<void>.delayed(const Duration(milliseconds: 400));
@@ -51,8 +67,8 @@ class _CalendarImage extends StatelessWidget {
             cacheWidth: screenWidthPx,
             width: double.infinity,
             fit: BoxFit.fitWidth,
-            filterQuality: FilterQuality.high, // better sampling
-            // nice loading spinner
+            filterQuality: FilterQuality.high,
+
             loadingBuilder: (context, child, progress) {
               if (progress == null) return child;
               return SizedBox(

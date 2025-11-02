@@ -1,6 +1,7 @@
+// lib/public/home/home_page.dart
 import 'package:flutter/material.dart';
-import 'package:RockDanceCompany/public/accessories/navbar.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/public/accessories/navbar.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,6 +29,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  //aesthetics
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           ),
           const SizedBox(height: 15),
 
-          // Title (Welcome message)
+          // Title
           Text(
             'Welcome to the Rock Dance Company app!',
             textAlign: TextAlign.center,

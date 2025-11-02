@@ -1,6 +1,7 @@
+// lib/private/polls/polls_vote_page.dart
 import 'package:flutter/material.dart';
 import 'polls_api.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class PollsVotePage extends StatefulWidget {
   final Map<String, dynamic> poll;
@@ -32,7 +33,7 @@ class _PollsVotePageState extends State<PollsVotePage> {
           return ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: brand,
-              foregroundColor: Colors.black87,
+              foregroundColor: selectedcolor,
               minimumSize: const Size.fromHeight(48),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),

@@ -1,3 +1,4 @@
+// lib/private/session/signup_page.dart
 import 'package:flutter/material.dart';
 import 'auth_api.dart';
 
@@ -14,6 +15,7 @@ class _SignupPageState extends State<SignupPage> {
   final _pass = TextEditingController();
   bool _busy = false;
 
+  // Clean up controllers when the widget is disposed
   @override
   void dispose() {
     _name.dispose();
@@ -46,6 +48,7 @@ class _SignupPageState extends State<SignupPage> {
     }
   }
 
+  // Build the signup form UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(

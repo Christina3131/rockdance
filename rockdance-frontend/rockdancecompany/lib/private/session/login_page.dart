@@ -1,3 +1,4 @@
+// lib/private/session/login_page.dart
 import 'package:flutter/material.dart';
 import 'auth_api.dart';
 
@@ -13,6 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final _pass = TextEditingController();
   bool _busy = false;
 
+  // Clean up controllers when the widget is disposed
   @override
   void dispose() {
     _email.dispose();
@@ -20,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  // Handles the login process
   Future<void> _doLogin() async {
     if (!_form.currentState!.validate()) return;
     setState(() => _busy = true);
@@ -38,13 +41,10 @@ class _LoginPageState extends State<LoginPage> {
       switch (e.code) {
         case 'not_active':
           msg = 'Your account is awaiting admin approval.';
-          break;
         case 'bad_credentials':
           msg = 'Invalid email or password.';
-          break;
         case 'invalid_input':
           msg = 'Please enter a valid email and password.';
-          break;
         default:
           msg = e.hint?.isNotEmpty == true
               ? e.hint!
@@ -61,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // login page UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(

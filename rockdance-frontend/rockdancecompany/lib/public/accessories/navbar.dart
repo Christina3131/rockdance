@@ -1,12 +1,14 @@
+// lib/public/accessories/NavBar.dart
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:RockDanceCompany/core/utils/url_utils.dart';
+import 'package:rockdancecompany/core/utils/url_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
 
+  // A navigation drawer with links to social media and contact info
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -54,8 +56,7 @@ class Navbar extends StatelessWidget {
             onTap: () async {
               Navigator.pop(context);
               await openSocial(
-                nativeUrl:
-                    'snssdk1128://user/profile/Rock Dance Company', // optional
+                nativeUrl: 'snssdk1128://user/profile/Rock Dance Company',
                 webUrl:
                     'https://www.tiktok.com/@rockdancecompany.ch', // clean URL
               );
@@ -67,8 +68,7 @@ class Navbar extends StatelessWidget {
             onTap: () async {
               Navigator.pop(context); // close the drawer
               await openSocial(
-                nativeUrl:
-                    'instagram://user?username=rockdancecompany', // optional
+                nativeUrl: 'instagram://user?username=rockdancecompany',
                 webUrl:
                     'https://www.instagram.com/rockdancecompany?igsh=MW54aDZmZGNidXYyZA', // clean URL
               );
@@ -110,7 +110,7 @@ class Navbar extends StatelessWidget {
             padding: EdgeInsets.all(16.0),
             child: Text(
               'Rock Dance Company\n'
-              'Case Postale 275 - 1213 Petit-Lancy 1',
+              'Post Office Box 275 - 1213 Petit-Lancy 1',
               style: TextStyle(fontSize: 12, color: iconcolor),
             ),
           ),

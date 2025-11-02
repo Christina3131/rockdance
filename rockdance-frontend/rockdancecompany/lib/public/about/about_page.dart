@@ -1,8 +1,9 @@
+// lib/public/about/about_page.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:RockDanceCompany/core/api/api_config.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/core/api/api_config.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -44,7 +45,7 @@ class _AboutPageState extends State<AboutPage> {
       final data = jsonDecode(res.body) as Map<String, dynamic>;
 
       if (res.statusCode == 200 && data['ok'] == true) {
-        // Parse simple fields
+        // Compute simple fields
         final paragraphs =
             (data['paragraphs'] as List?)?.map((e) => '$e').toList() ??
             <String>[];
@@ -52,7 +53,7 @@ class _AboutPageState extends State<AboutPage> {
             (data['missions'] as List?)?.map((e) => '$e').toList() ??
             <String>[];
 
-        // Parse stats (list of { value, label })
+        // Compute stats (list of { value, label })
         final statsList = <Map<String, String>>[];
         if (data['stats'] is List) {
           for (final item in (data['stats'] as List)) {
@@ -65,7 +66,7 @@ class _AboutPageState extends State<AboutPage> {
           }
         }
 
-        // Parse valeurs (object { text, image })
+        // Compute valeurs (object { text, image })
         String? valeursText;
         String? valeursImage;
         final valeurs = data['valeurs'];
@@ -98,6 +99,7 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
+  //aesthetics
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,6 +113,9 @@ class _AboutPageState extends State<AboutPage> {
         ),
         centerTitle: true,
         backgroundColor: unselectedcolor,
+        actions: [
+          IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
+        ],
       ),
       body: RefreshIndicator(
         onRefresh: _load,
@@ -198,7 +203,7 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                     ),
 
-                  // Valeurs (collapsible: one paragraph + image)
+                  // Values (collapsible)
                   if ((_valeursText != null && _valeursText!.isNotEmpty) ||
                       (_valeursImage != null && _valeursImage!.isNotEmpty))
                     Card(
@@ -213,7 +218,7 @@ class _AboutPageState extends State<AboutPage> {
                           color: selectedcolor,
                         ),
                         title: const Text(
-                          'Valeurs',
+                          'Values',
                           style: TextStyle(fontWeight: FontWeight.w700),
                         ),
                         childrenPadding: const EdgeInsets.fromLTRB(

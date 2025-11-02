@@ -1,7 +1,8 @@
+// lib/private/polls/polls_page.dart
 import 'package:flutter/material.dart';
 import 'polls_api.dart';
 import 'polls_vote_page.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class PollsPage extends StatefulWidget {
   const PollsPage({super.key});
@@ -13,12 +14,14 @@ class _PollsPageState extends State<PollsPage> {
   late Future<List<dynamic>> _future;
   final _api = PollsApi();
 
+  // Initialize state and fetch open polls
   @override
   void initState() {
     super.initState();
     _future = _api.listOpen();
   }
 
+  //UI, aesthetics
   @override
   Widget build(BuildContext context) {
     return Scaffold(

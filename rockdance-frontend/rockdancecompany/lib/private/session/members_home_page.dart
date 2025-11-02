@@ -1,9 +1,11 @@
+// lib/private/session/members_home_page.dart
 import 'package:flutter/material.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class MembersHomePage extends StatelessWidget {
   const MembersHomePage({super.key});
 
+  // UI and navigation for members' home page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,6 +50,7 @@ class HomeButton extends StatelessWidget {
     required this.route,
   });
 
+  //
   @override
   Widget build(BuildContext context) {
     return SizedBox(

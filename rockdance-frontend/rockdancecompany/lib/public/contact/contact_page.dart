@@ -1,8 +1,9 @@
+// lib/public/contact/contact_page.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:RockDanceCompany/core/api/api_config.dart';
-import 'package:RockDanceCompany/constants/constants.dart';
+import 'package:rockdancecompany/core/api/api_config.dart';
+import 'package:rockdancecompany/constants/constants.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -32,7 +33,7 @@ class _ContactPageState extends State<ContactPage> {
   }
 
   Future<void> _submit() async {
-    // 1) Validate local form
+    // Validate local form
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _sending = true);
@@ -53,11 +54,10 @@ class _ContactPageState extends State<ContactPage> {
           )
           .timeout(const Duration(seconds: 12));
 
-      // 2) Handle server response
+      //  Handles server response
       final j = jsonDecode(res.body) as Map<String, dynamic>;
 
       if (res.statusCode == 200 && j['ok'] == true) {
-        // DEV mode may return { ok:true, dev_note: '...' }
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -115,95 +115,130 @@ class _ContactPageState extends State<ContactPage> {
     return ok ? null : 'Invalid email';
   }
 
+  //aesthetics
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Contact Us'), backgroundColor: brand),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/logo.jpg', height: 40),
+            const SizedBox(width: 8),
+          ],
+        ),
+        centerTitle: true,
+        backgroundColor: unselectedcolor,
+        actions: [
+          IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
+        ],
+      ),
       body: SafeArea(
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Padding(
             padding: const EdgeInsets.all(16),
-            children: [
-              TextFormField(
-                controller: _name,
-                decoration: const InputDecoration(
-                  labelText: 'First name',
-                  filled: true,
-                  fillColor: Color(0xFFF5F5F5),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: brand, width: 2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Contact Us',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: brand,
                   ),
+                  textAlign: TextAlign.center,
                 ),
-                validator: _req,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _surname,
-                decoration: const InputDecoration(
-                  labelText: 'Surname',
-                  filled: true,
-                  fillColor: Color(0xFFF5F5F5),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: brand, width: 2),
+                const SizedBox(height: 20),
+
+                //form fields
+                TextFormField(
+                  controller: _name,
+                  decoration: const InputDecoration(
+                    labelText: 'First name',
+                    filled: true,
+                    fillColor: Color(0xFFF5F5F5),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: brand, width: 2),
+                    ),
                   ),
+                  validator: _req,
                 ),
-                validator: _req,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _email,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  filled: true,
-                  fillColor: Color(0xFFF5F5F5),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: brand, width: 2),
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  controller: _surname,
+                  decoration: const InputDecoration(
+                    labelText: 'Surname',
+                    filled: true,
+                    fillColor: Color(0xFFF5F5F5),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: brand, width: 2),
+                    ),
                   ),
+                  validator: _req,
                 ),
-                keyboardType: TextInputType.emailAddress,
-                validator: _emailRule,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _phone,
-                decoration: const InputDecoration(
-                  labelText: 'Phone',
-                  filled: true,
-                  fillColor: Color(0xFFF5F5F5),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: brand, width: 2),
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  controller: _email,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    filled: true,
+                    fillColor: Color(0xFFF5F5F5),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: brand, width: 2),
+                    ),
                   ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: _emailRule,
                 ),
-                keyboardType: TextInputType.phone,
-                validator: _req,
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _message,
-                decoration: const InputDecoration(
-                  labelText: 'Message',
-                  filled: true,
-                  fillColor: Color(0xFFF5F5F5),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(color: brand, width: 2),
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  controller: _phone,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone',
+                    filled: true,
+                    fillColor: Color(0xFFF5F5F5),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: brand, width: 2),
+                    ),
                   ),
+                  keyboardType: TextInputType.phone,
+                  validator: _req,
                 ),
-                maxLines: 5,
-                validator: _req,
-              ),
-              const SizedBox(height: 20),
-              FilledButton(
-                onPressed: _sending ? null : _submit,
-                child: _sending
-                    ? const SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Text('Send'),
-              ),
-            ],
+                const SizedBox(height: 12),
+
+                TextFormField(
+                  controller: _message,
+                  decoration: const InputDecoration(
+                    labelText: 'Message',
+                    filled: true,
+                    fillColor: Color(0xFFF5F5F5),
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: brand, width: 2),
+                    ),
+                  ),
+                  maxLines: 5,
+                  validator: _req,
+                ),
+                const SizedBox(height: 20),
+
+                FilledButton(
+                  onPressed: _sending ? null : _submit,
+                  child: _sending
+                      ? const SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Text('Send'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
