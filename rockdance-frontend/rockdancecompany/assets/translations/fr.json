@@ -1,0 +1,46 @@
+{
+  "app.name": "Rock Dance Company",
+  "nav.home": "Accueil",
+  "nav.about": "À propos",
+  "nav.calendar": "Calendrier",
+  "nav.contact": "Contact",
+  "nav.login": "Se connecter",
+  "nav.signup": "S'inscrire",
+  "nav.members": "Espace membres",
+
+  "home.welcomeTitle": "Bienvenue dans l'application Rock Dance Company !",
+  "home.welcomeBody": "Dans cette application, vous pouvez en savoir plus sur notre club, rester informé du calendrier des événements et nous contacter facilement. \n\nSi vous êtes membre, vous pouvez vous connecter et découvrir ce qui vous attend de l'autre côté de l'application. \n\nDans la barre latérale, vous pouvez également accéder à nos réseaux sociaux en un seul clic.",
+
+  "contact.title": "Contact",
+  "contact.firstName": "Prénom",
+  "contact.surname": "Nom",
+  "contact.email": "Email",
+  "contact.phone": "Téléphone",
+  "contact.message": "Message",
+  "contact.send": "Envoyer",
+
+  "about.missions": "Missions",
+  "about.values": "Valeurs",
+
+  "login.password": "Mot de passe",
+  "login.signin": "Pas de compte ? Inscrivez-vous",
+
+  "login.required": "Ce champ est obligatoire",
+  "login.invalidEmail": "Adresse e-mail invalide",
+    "login.approve": "Votre compte est en attente d'approbation par un administrateur.",
+  "login.credentials": "Email ou mot de passe invalide.",
+  "login.input": "Veuillez entrer un email et un mot de passe valides.",
+  "login:failed": "Échec de la connexion. Veuillez réessayer.",
+
+  "members.area": "Espace membres",
+  "members.polls": "Sondages",
+  "members.calendar": "Calendrier des membres",
+  "members.meetings": "Réunions",
+
+  "polls.state": "Aucun sondage ouvert pour le moment.",
+
+  "meeting": "Réunions", 
+  "meeting.scheduled": "Aucune réunion programmée pour le moment.", 
+
+  "calendar": "Calendrier"
+}

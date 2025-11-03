@@ -1,6 +1,7 @@
 // lib/public/contact/contact_page.dart
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:rockdancecompany/core/api/api_config.dart';
 import 'package:rockdancecompany/constants/constants.dart';
@@ -130,7 +131,10 @@ class _ContactPageState extends State<ContactPage> {
         centerTitle: true,
         backgroundColor: unselectedcolor,
         actions: [
-          IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.toggle_off_outlined),
+            onPressed: () {},
+          ),
         ],
       ),
       body: SafeArea(
@@ -142,9 +146,9 @@ class _ContactPageState extends State<ContactPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Contact Us',
-                  style: TextStyle(
+                Text(
+                  'contact.title'.tr(),
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                     color: brand,
@@ -156,8 +160,8 @@ class _ContactPageState extends State<ContactPage> {
                 //form fields
                 TextFormField(
                   controller: _name,
-                  decoration: const InputDecoration(
-                    labelText: 'First name',
+                  decoration: InputDecoration(
+                    labelText: 'contact.firstName'.tr(),
                     filled: true,
                     fillColor: Color(0xFFF5F5F5),
                     border: OutlineInputBorder(
@@ -170,8 +174,8 @@ class _ContactPageState extends State<ContactPage> {
 
                 TextFormField(
                   controller: _surname,
-                  decoration: const InputDecoration(
-                    labelText: 'Surname',
+                  decoration: InputDecoration(
+                    labelText: 'contact.surname'.tr(),
                     filled: true,
                     fillColor: Color(0xFFF5F5F5),
                     border: OutlineInputBorder(
@@ -184,8 +188,8 @@ class _ContactPageState extends State<ContactPage> {
 
                 TextFormField(
                   controller: _email,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
+                  decoration: InputDecoration(
+                    labelText: 'contact.email'.tr(),
                     filled: true,
                     fillColor: Color(0xFFF5F5F5),
                     border: OutlineInputBorder(
@@ -199,8 +203,8 @@ class _ContactPageState extends State<ContactPage> {
 
                 TextFormField(
                   controller: _phone,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone',
+                  decoration: InputDecoration(
+                    labelText: 'contact.phone'.tr(),
                     filled: true,
                     fillColor: Color(0xFFF5F5F5),
                     border: OutlineInputBorder(
@@ -214,8 +218,8 @@ class _ContactPageState extends State<ContactPage> {
 
                 TextFormField(
                   controller: _message,
-                  decoration: const InputDecoration(
-                    labelText: 'Message',
+                  decoration: InputDecoration(
+                    labelText: 'contact.message'.tr(),
                     filled: true,
                     fillColor: Color(0xFFF5F5F5),
                     border: OutlineInputBorder(
@@ -230,12 +234,12 @@ class _ContactPageState extends State<ContactPage> {
                 FilledButton(
                   onPressed: _sending ? null : _submit,
                   child: _sending
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: 18,
                           height: 18,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Text('Send'),
+                      : const Text('contact.send').tr(),
                 ),
               ],
             ),

@@ -1,5 +1,6 @@
 // lib/private/session/login_page.dart
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'auth_api.dart';
 
 class LoginPage extends StatefulWidget {
@@ -40,15 +41,13 @@ class _LoginPageState extends State<LoginPage> {
       String msg;
       switch (e.code) {
         case 'not_active':
-          msg = 'Your account is awaiting admin approval.';
+          msg = 'login.approve'.tr();
         case 'bad_credentials':
-          msg = 'Invalid email or password.';
+          msg = 'login.credentials'.tr();
         case 'invalid_input':
-          msg = 'Please enter a valid email and password.';
+          msg = 'login.input'.tr();
         default:
-          msg = e.hint?.isNotEmpty == true
-              ? e.hint!
-              : 'Login failed. Please try again.';
+          msg = e.hint?.isNotEmpty == true ? e.hint! : 'login.failed'.tr();
       }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } catch (e) {
@@ -77,19 +76,20 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
               validator: (v) {
-                if (v == null || v.trim().isEmpty) return 'Required';
+                if (v == null || v.trim().isEmpty) return 'login.required'.tr();
                 final ok = RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(v.trim());
-                return ok ? null : 'Invalid email';
+                return ok ? null : 'login.invalid_email'.tr();
               },
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _pass,
-              decoration: const InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(labelText: 'login.password'.tr()),
               obscureText: true,
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (_) => _busy ? null : _doLogin(),
-              validator: (v) => (v == null || v.isEmpty) ? 'Required' : null,
+              validator: (v) =>
+                  (v == null || v.isEmpty) ? 'login.required'.tr() : null,
             ),
             const SizedBox(height: 20),
             FilledButton(
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: _busy
                   ? null
                   : () => Navigator.pushNamed(context, '/signup'),
-              child: const Text('No account? Sign up'),
+              child: Text('login.signin'.tr()),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 // lib/main.dart, connecting all pages and setting up routing
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import 'package:rockdancecompany/public/home/home_page.dart';
 import 'package:rockdancecompany/public/about/about_page.dart';
@@ -19,10 +20,17 @@ import 'package:rockdancecompany/constants/constants.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
 
-  await SessionClient().init();
-
-  runApp(const RockDanceApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('fr')],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en'),
+      saveLocale: true, // persists the last chosen language
+      child: const RockDanceApp(),
+    ),
+  );
 }
 
 class RockDanceApp extends StatelessWidget {
@@ -31,10 +39,14 @@ class RockDanceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Rock Dance Company',
+      title: 'app.name'.tr(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: brand),
+      locale: context.locale,
+      supportedLocales: context.supportedLocales,
+      localizationsDelegates: context.localizationDelegates,
 
+      initialRoute: '/',
       routes: {
         '/': (_) => const HomePage(),
         '/about': (_) => const AboutPage(),
@@ -42,35 +54,10 @@ class RockDanceApp extends StatelessWidget {
         '/contact': (_) => const ContactPage(),
         '/login': (_) => const LoginPage(),
         '/signup': (_) => const SignupPage(),
-      },
-
-      onGenerateRoute: (settings) {
-        Widget? page;
-
-        bool isLoggedIn() =>
-            SessionClient().cookie != null &&
-            SessionClient().cookie!.isNotEmpty;
-
-        switch (settings.name) {
-          case '/members':
-            page = isLoggedIn() ? const MembersHomePage() : const LoginPage();
-            break;
-          case '/members/polls':
-            page = isLoggedIn() ? const PollsPage() : const LoginPage();
-            break;
-          case '/members/calendar':
-            page = isLoggedIn()
-                ? const MembersCalendarPage()
-                : const LoginPage();
-            break;
-          case '/members/meetings':
-            page = isLoggedIn() ? const MeetingsPage() : const LoginPage();
-            break;
-          default:
-            return null;
-        }
-
-        return MaterialPageRoute(builder: (_) => page!);
+        '/members': (_) => const MembersHomePage(),
+        '/members/polls': (_) => const PollsPage(),
+        '/members/calendar': (_) => const MembersCalendarPage(),
+        '/members/meetings': (_) => const MeetingsPage(),
       },
     );
   }

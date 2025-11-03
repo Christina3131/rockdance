@@ -1,5 +1,6 @@
 // lib/public/about/about_page.dart
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rockdancecompany/core/api/api_config.dart';
@@ -28,9 +29,12 @@ class _AboutPageState extends State<AboutPage> {
   bool _loading = true;
 
   @override
-  void initState() {
-    super.initState();
-    _load();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Ensure we only call it once
+    if (_loading && _title == null) {
+      _load();
+    }
   }
 
   Future<void> _load() async {
@@ -40,7 +44,9 @@ class _AboutPageState extends State<AboutPage> {
     });
 
     try {
-      final url = Uri.parse('${ApiConfig.base}/news/about.php');
+      final lang = context.locale.languageCode; // 'en' or 'fr'
+      final url = Uri.parse('${ApiConfig.base}/news/about.php?lang=$lang');
+
       final res = await http.get(url).timeout(const Duration(seconds: 12));
       final data = jsonDecode(res.body) as Map<String, dynamic>;
 
@@ -114,7 +120,17 @@ class _AboutPageState extends State<AboutPage> {
         centerTitle: true,
         backgroundColor: unselectedcolor,
         actions: [
-          IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.toggle_on),
+            onPressed: () async {
+              final current = context.locale.languageCode;
+              final next = current == 'en'
+                  ? const Locale('fr')
+                  : const Locale('en');
+              await context.setLocale(next);
+              if (mounted) _load();
+            },
+          ),
         ],
       ),
       body: RefreshIndicator(
@@ -137,7 +153,7 @@ class _AboutPageState extends State<AboutPage> {
                 children: [
                   // Title
                   Text(
-                    _title ?? 'La Rock Dance Company',
+                    _title ?? 'Rock Dance Company',
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       color: brand,
@@ -167,8 +183,8 @@ class _AboutPageState extends State<AboutPage> {
                           Icons.rocket_launch,
                           color: selectedcolor,
                         ),
-                        title: const Text(
-                          'Missions',
+                        title: Text(
+                          'about.missions'.tr(),
                           style: TextStyle(fontWeight: FontWeight.w700),
                         ),
                         childrenPadding: const EdgeInsets.fromLTRB(
@@ -217,8 +233,8 @@ class _AboutPageState extends State<AboutPage> {
                           Icons.handshake_rounded,
                           color: selectedcolor,
                         ),
-                        title: const Text(
-                          'Values',
+                        title: Text(
+                          'about.values'.tr(),
                           style: TextStyle(fontWeight: FontWeight.w700),
                         ),
                         childrenPadding: const EdgeInsets.fromLTRB(

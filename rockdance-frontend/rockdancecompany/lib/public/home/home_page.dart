@@ -1,5 +1,6 @@
 // lib/public/home/home_page.dart
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:rockdancecompany/public/accessories/navbar.dart';
 import 'package:rockdancecompany/constants/constants.dart';
 
@@ -44,7 +45,30 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         backgroundColor: unselectedcolor,
         actions: [
-          IconButton(icon: const Icon(Icons.toggle_on), onPressed: () {}),
+          Row(
+            children: [
+              const Text(
+                'FR/EN',
+                style: TextStyle(
+                  color: iconcolor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.toggle_on, color: iconcolor),
+                tooltip: 'Switch language',
+                onPressed: () async {
+                  final current = context.locale.languageCode;
+                  final newLocale = current == 'en'
+                      ? const Locale('fr')
+                      : const Locale('en');
+                  context.setLocale(newLocale);
+                },
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
         ],
       ),
       drawer: const Navbar(),
@@ -56,6 +80,12 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: selectedcolor,
         unselectedItemColor: unselectedcolor,
         backgroundColor: brand,
+
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+
+        iconSize: 30,
+
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
@@ -65,7 +95,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.contact_mail),
-            label: 'Contact',
+            label: 'Contact US',
           ),
         ],
       ),
@@ -82,7 +112,7 @@ class _HomePageState extends State<HomePage> {
 
           // Title
           Text(
-            'Welcome to the Rock Dance Company app!',
+            'home.welcomeTitle'.tr(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
               color: selectedcolor,
@@ -95,10 +125,7 @@ class _HomePageState extends State<HomePage> {
 
           // Description text
           Text(
-            'In this app, you can discover more about our club, stay updated with the calendar of events, '
-            'and get in touch with us easily.\n\n'
-            'You can login if you are a member and explore what awaits you on the other side of the app.\n\n'
-            'In the sidebar, you can also access our social media platforms in just one click.',
+            'home.welcomeBody'.tr(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
               color: selectedcolor,
