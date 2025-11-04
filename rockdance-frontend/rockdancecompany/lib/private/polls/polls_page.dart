@@ -1,5 +1,6 @@
 // lib/private/polls/polls_page.dart
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'polls_api.dart';
 import 'polls_vote_page.dart';
 import 'package:rockdancecompany/constants/constants.dart';
@@ -25,7 +26,7 @@ class _PollsPageState extends State<PollsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Polls'), backgroundColor: brand),
+      appBar: AppBar(title: Text('member.area'.tr()), backgroundColor: brand),
       body: FutureBuilder<List<dynamic>>(
         future: _future,
         builder: (context, snap) {

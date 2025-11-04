@@ -1,4 +1,5 @@
 // lib/private/calendar/members_calendar_page.dart
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rockdancecompany/constants/constants.dart';
 
@@ -17,7 +18,7 @@ class MembersCalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Calendar'), backgroundColor: brand),
+      appBar: AppBar(title: Text('calendar'.tr()), backgroundColor: brand),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future<void>.delayed(const Duration(milliseconds: 400));

@@ -120,16 +120,29 @@ class _AboutPageState extends State<AboutPage> {
         centerTitle: true,
         backgroundColor: unselectedcolor,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.toggle_on),
-            onPressed: () async {
-              final current = context.locale.languageCode;
-              final next = current == 'en'
-                  ? const Locale('fr')
-                  : const Locale('en');
-              await context.setLocale(next);
-              if (mounted) _load();
-            },
+          Row(
+            children: [
+              const Text(
+                'FR/EN',
+                style: TextStyle(
+                  color: iconcolor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.toggle_on, color: iconcolor),
+                tooltip: 'Switch language',
+                onPressed: () async {
+                  final current = context.locale.languageCode;
+                  final newLocale = current == 'en'
+                      ? const Locale('fr')
+                      : const Locale('en');
+                  context.setLocale(newLocale);
+                },
+              ),
+              const SizedBox(width: 8),
+            ],
           ),
         ],
       ),
