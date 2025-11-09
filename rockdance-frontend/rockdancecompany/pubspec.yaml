@@ -1,7 +1,7 @@
 name: rockdancecompany
-description: "Application for a rock n' roll club"
+description: "Application for a rock 'n' roll club"
 publish_to: "none"
-version: 0.1.0
+version: 0.1.0+1
 
 environment:
   sdk: ^3.9.0

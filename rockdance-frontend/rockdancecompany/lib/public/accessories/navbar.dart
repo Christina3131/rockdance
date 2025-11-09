@@ -77,7 +77,7 @@ class Navbar extends StatelessWidget {
 
           ListTile(
             leading: const FaIcon(FontAwesomeIcons.youtube, color: brand),
-            title: const Text('Youtube'),
+            title: const Text('YouTube'),
             onTap: () async {
               Navigator.pop(context);
               await openSocial(

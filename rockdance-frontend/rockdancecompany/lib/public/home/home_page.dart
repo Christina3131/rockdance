@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.toggle_on, color: iconcolor),
+                icon: const Icon(Icons.language_rounded, color: iconcolor),
                 tooltip: 'Switch language',
                 onPressed: () async {
                   final current = context.locale.languageCode;

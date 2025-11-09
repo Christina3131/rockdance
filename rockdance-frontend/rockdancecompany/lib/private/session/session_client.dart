@@ -1,4 +1,6 @@
 // lib/private/session/session_client.dart
+import 'dart:async';
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

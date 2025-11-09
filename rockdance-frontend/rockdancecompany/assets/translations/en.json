@@ -32,6 +32,16 @@
   "login.input": "Please enter a valid email and password.",
   "login:failed": "Login failed. Please try again.",
 
+  "signup": "Sign up",
+  "signup.name": "Name",
+  "signup.surname": "Surname",
+  "signup.required": "Required",
+  "signup.email": "Email",
+  "signup.password": "Password",
+  "signup.create": "Create account",
+  "signup.invalidEmail": "Invalid email address",
+  "signup.success": "Registered! Wait for admin approval.",
+
   "members.area": "Members Area",
   "members.polls": "Polls",
   "members.calendar": "Members Calendar",

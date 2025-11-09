@@ -10,7 +10,6 @@ import 'package:rockdancecompany/public/contact/contact_page.dart';
 import 'package:rockdancecompany/private/session/login_page.dart';
 import 'package:rockdancecompany/private/session/signup_page.dart';
 import 'package:rockdancecompany/private/session/members_home_page.dart';
-import 'package:rockdancecompany/private/session/session_client.dart';
 
 import 'package:rockdancecompany/private/polls/polls_page.dart';
 import 'package:rockdancecompany/private/calendar/members_calendar_page.dart';

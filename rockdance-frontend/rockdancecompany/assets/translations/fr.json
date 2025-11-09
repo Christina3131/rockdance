@@ -25,12 +25,24 @@
   "login.password": "Mot de passe",
   "login.signin": "Pas de compte ? Inscrivez-vous",
 
-  "login.required": "Ce champ est obligatoire",
+  "login.required": "Obligatoire",
   "login.invalidEmail": "Adresse e-mail invalide",
-    "login.approve": "Votre compte est en attente d'approbation par un administrateur.",
+  "login.approve": "Votre compte est en attente d'approbation par un administrateur.",
   "login.credentials": "Email ou mot de passe invalide.",
   "login.input": "Veuillez entrer un email et un mot de passe valides.",
   "login:failed": "Échec de la connexion. Veuillez réessayer.",
+
+  "signup": "S'inscrire",
+  "signup.name": "Prénom",
+  "signup.surname": "Nom",
+  "signup.required": "Obligatoire",
+  "signup.email": "Email",
+  "signup.password": "Mot de passe",
+  "signup.create": "Créer un compte",  
+  "signup.invalidEmail": "Adresse e-mail invalide",
+  "signup.success": "Enregistré ! Attendez l'approbation de l'administrateur.",
+
+
 
   "members.area": "Espace membres",
   "members.polls": "Sondages",

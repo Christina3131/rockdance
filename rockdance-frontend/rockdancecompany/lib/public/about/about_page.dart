@@ -98,8 +98,13 @@ class _AboutPageState extends State<AboutPage> {
         });
       }
     } catch (e) {
+      String message = 'Unexpected error occured. Please try again.';
+      if (e.toString().contains('SocketException')) {
+        message =
+            'No internet connection. Please check your Wi-Fi or mobile data.';
+      }
       setState(() {
-        _error = 'Network error: $e';
+        _error = message;
         _loading = false;
       });
     }
@@ -131,7 +136,7 @@ class _AboutPageState extends State<AboutPage> {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.toggle_on, color: iconcolor),
+                icon: const Icon(Icons.language_rounded, color: iconcolor),
                 tooltip: 'Switch language',
                 onPressed: () async {
                   final current = context.locale.languageCode;

@@ -10,30 +10,41 @@ class MembersHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(title: Text('members.area'.tr()), backgroundColor: brand),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            HomeButton(
-              icon: Icons.how_to_vote_outlined,
-              label: 'members.polls'.tr(),
-              route: '/members/polls',
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(
+            24,
+            24,
+            24,
+            24 + MediaQuery.of(context).viewInsets.bottom,
+          ),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                HomeButton(
+                  icon: Icons.how_to_vote_outlined,
+                  label: 'members.polls'.tr(),
+                  route: '/members/polls',
+                ),
+                const SizedBox(height: 20),
+                HomeButton(
+                  icon: Icons.event_note_outlined,
+                  label: 'members.calendar'.tr(),
+                  route: '/members/calendar',
+                ),
+                const SizedBox(height: 20),
+                HomeButton(
+                  icon: Icons.people_outline,
+                  label: 'members.meetings'.tr(),
+                  route: '/members/meetings',
+                ),
+              ],
             ),
-            SizedBox(height: 20),
-            HomeButton(
-              icon: Icons.event_note_outlined,
-              label: 'members.calendar'.tr(),
-              route: '/members/calendar',
-            ),
-            SizedBox(height: 20),
-            HomeButton(
-              icon: Icons.people_outline,
-              label: 'members.meetings'.tr(),
-              route: '/members/meetings',
-            ),
-          ],
+          ),
         ),
       ),
     );

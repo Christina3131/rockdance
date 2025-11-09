@@ -51,10 +51,18 @@ class _LoginPageState extends State<LoginPage> {
       }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } catch (e) {
+      String message = 'Unexpected error occured. Please try again later.';
+      if (e.toString().contains('SocketException')) {
+        message =
+            'No internet connection. Please check your Wi-Fi or mobile data.';
+      } else if (e.toString().contains('TimeoutException')) {
+        message = 'The server is not responding. Please try again later.';
+      }
+
       if (!mounted) return;
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text('Network or server error: $e')));
+      ).showSnackBar(SnackBar(content: Text(message)));
     } finally {
       if (mounted) setState(() => _busy = false);
     }

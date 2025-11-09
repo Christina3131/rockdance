@@ -98,9 +98,15 @@ class _ContactPageState extends State<ContactPage> {
       }
     } catch (e) {
       if (mounted) {
+        String message = 'Unexpected error occurred. Please try again.';
+        if (e.toString().contains('SocketException')) {
+          message =
+              'No internet connection. Please check your Wi-Fi or mobile data.';
+        }
+
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text('Network error: $e')));
+        ).showSnackBar(SnackBar(content: Text(message)));
       }
     } finally {
       if (mounted) setState(() => _sending = false);
@@ -119,6 +125,7 @@ class _ContactPageState extends State<ContactPage> {
   //aesthetics
   @override
   Widget build(BuildContext context) {
+    final kb = MediaQuery.of(context).viewInsets.bottom;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -142,7 +149,7 @@ class _ContactPageState extends State<ContactPage> {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.toggle_on, color: iconcolor),
+                icon: const Icon(Icons.language_rounded, color: iconcolor),
                 tooltip: 'Switch language',
                 onPressed: () async {
                   final current = context.locale.languageCode;
@@ -162,9 +169,9 @@ class _ContactPageState extends State<ContactPage> {
           key: _formKey,
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            child: ListView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              padding: EdgeInsets.fromLTRB(16, 16, 16, 16 + kb),
               children: [
                 Text(
                   'contact.title'.tr(),

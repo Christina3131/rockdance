@@ -27,7 +27,7 @@ class CalendarPhotosPage extends StatelessWidget {
         backgroundColor: unselectedcolor,
         actions: [
           IconButton(
-            icon: const Icon(Icons.toggle_on, color: iconcolor),
+            icon: const Icon(Icons.language_rounded, color: iconcolor),
             onPressed: () {},
           ),
         ],
