@@ -80,8 +80,9 @@ class _SignupPageState extends State<SignupPage> {
               decoration: InputDecoration(labelText: 'signup.email'.tr()),
               keyboardType: TextInputType.emailAddress,
               validator: (v) {
-                if (v == null || v.trim().isEmpty)
+                if (v == null || v.trim().isEmpty) {
                   return 'signup.required'.tr();
+                }
                 final ok = RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(v.trim());
                 return ok ? null : 'signup.invalidEmail'.tr();
               },
