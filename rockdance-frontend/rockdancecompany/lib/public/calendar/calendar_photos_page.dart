@@ -63,28 +63,23 @@ class _CalendarPhotosPageState extends State<CalendarPhotosPage> {
         centerTitle: true,
         backgroundColor: unselectedcolor,
         actions: [
-          Center(
-            child: Text(
-              'FR/EN',
-              style: const TextStyle(
+          TextButton(
+            onPressed: () async {
+              final current = context.locale.languageCode;
+              final newLocale = current == 'en'
+                  ? const Locale('fr')
+                  : const Locale('en');
+              await context.setLocale(newLocale);
+            },
+            child: const Text(
+              'FR / EN',
+              style: TextStyle(
                 color: iconcolor,
                 fontWeight: FontWeight.bold,
                 fontSize: 15,
               ),
             ),
           ),
-          IconButton(
-            icon: const Icon(Icons.language_rounded, color: iconcolor),
-            tooltip: 'Switch language',
-            onPressed: () async {
-              final current = context.locale.languageCode;
-              final newLocale = current == 'en'
-                  ? const Locale('fr')
-                  : const Locale('en');
-              context.setLocale(newLocale);
-            },
-          ),
-          const SizedBox(width: 8),
         ],
       ),
       drawer: const Navbar(),
