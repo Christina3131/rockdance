@@ -8,14 +8,6 @@ GeneratedPluginRegistrant.java
 .cxx/
 
 # Remember to never publicly share your keystore.
-# See https://flutter.dev/to/reference-keystore
-key.properties
-storePassword=rockDance31
-keyPassword=rockDance31
-keyAlias=upload
-storeFile=C:\\Keys\\upload-keystore.jks
- # use absolute path; escape backslashes on Windows
-
 
 **/*.keystore
 **/*.jks

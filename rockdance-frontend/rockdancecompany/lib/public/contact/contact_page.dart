@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
 import 'package:rockdancecompany/core/api/api_config.dart';
 import 'package:rockdancecompany/constants/constants.dart';
+import 'package:rockdancecompany/public/accessories/navbar.dart';
 
 class ContactPage extends StatefulWidget {
   const ContactPage({super.key});
@@ -20,6 +21,24 @@ class _ContactPageState extends State<ContactPage> {
   final _email = TextEditingController();
   final _phone = TextEditingController();
   final _message = TextEditingController();
+
+  int _currentIndex = 3;
+
+  void _onTap(int index) {
+    setState(() => _currentIndex = index);
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, '/'); // Home
+      case 1:
+        Navigator.pushReplacementNamed(context, '/about');
+      case 2:
+        Navigator.pushReplacementNamed(context, '/calendar');
+      case 3:
+        // Already on Contact
+        break;
+    }
+  }
 
   bool _sending = false;
 
@@ -138,29 +157,56 @@ class _ContactPageState extends State<ContactPage> {
         centerTitle: true,
         backgroundColor: unselectedcolor,
         actions: [
-          Row(
-            children: [
-              const Text(
-                'FR/EN',
-                style: TextStyle(
-                  color: iconcolor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+          Center(
+            child: Text(
+              'FR/EN',
+              style: const TextStyle(
+                color: iconcolor,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
-              IconButton(
-                icon: const Icon(Icons.language_rounded, color: iconcolor),
-                tooltip: 'Switch language',
-                onPressed: () async {
-                  final current = context.locale.languageCode;
-                  final newLocale = current == 'en'
-                      ? const Locale('fr')
-                      : const Locale('en');
-                  context.setLocale(newLocale);
-                },
-              ),
-              const SizedBox(width: 8),
-            ],
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.language_rounded, color: iconcolor),
+            tooltip: 'Switch language',
+            onPressed: () async {
+              final current = context.locale.languageCode;
+              final newLocale = current == 'en'
+                  ? const Locale('fr')
+                  : const Locale('en');
+              context.setLocale(newLocale);
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
+
+      drawer: const Navbar(),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: selectedcolor,
+        unselectedItemColor: unselectedcolor,
+        backgroundColor: brand,
+
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+
+        iconSize: 30,
+
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month_outlined),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contact_mail),
+            label: 'Contact US',
           ),
         ],
       ),

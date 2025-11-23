@@ -38,7 +38,7 @@ class RockDanceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'app.name'.tr(),
+      title: 'Rock Dance Company',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: brand),
       locale: context.locale,

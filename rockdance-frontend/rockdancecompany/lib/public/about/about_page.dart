@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rockdancecompany/core/api/api_config.dart';
 import 'package:rockdancecompany/constants/constants.dart';
+import 'package:rockdancecompany/public/accessories/navbar.dart';
 
 class AboutPage extends StatefulWidget {
   const AboutPage({super.key});
@@ -13,14 +14,14 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> {
-  String? _title;
+  // Tracks previously loaded language
+  String? _currentLang;
 
-  // Content sections
+  // Content fields
+  String? _title;
   List<String> _paragraphs = [];
   List<Map<String, String>> _stats = [];
   List<String> _missions = [];
-
-  // Valeurs is one text + one image
   String? _valeursText;
   String? _valeursImage;
 
@@ -28,15 +29,26 @@ class _AboutPageState extends State<AboutPage> {
   String? _error;
   bool _loading = true;
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Ensure we only call it once
-    if (_loading && _title == null) {
-      _load();
+  // Navigation
+  int _currentIndex = 1; // About tab selected
+
+  void _onTap(int index) {
+    setState(() => _currentIndex = index);
+
+    switch (index) {
+      case 0:
+        Navigator.pushReplacementNamed(context, '/');
+      case 1:
+        // Already here
+        break;
+      case 2:
+        Navigator.pushReplacementNamed(context, '/calendar');
+      case 3:
+        Navigator.pushReplacementNamed(context, '/contact');
     }
   }
 
+  // Load data (uses database language API)
   Future<void> _load() async {
     setState(() {
       _loading = true;
@@ -44,14 +56,14 @@ class _AboutPageState extends State<AboutPage> {
     });
 
     try {
-      final lang = context.locale.languageCode; // 'en' or 'fr'
+      final lang = context.locale.languageCode;
       final url = Uri.parse('${ApiConfig.base}/news/about.php?lang=$lang');
 
       final res = await http.get(url).timeout(const Duration(seconds: 12));
       final data = jsonDecode(res.body) as Map<String, dynamic>;
 
       if (res.statusCode == 200 && data['ok'] == true) {
-        // Compute simple fields
+        // Basic fields
         final paragraphs =
             (data['paragraphs'] as List?)?.map((e) => '$e').toList() ??
             <String>[];
@@ -59,7 +71,7 @@ class _AboutPageState extends State<AboutPage> {
             (data['missions'] as List?)?.map((e) => '$e').toList() ??
             <String>[];
 
-        // Compute stats (list of { value, label })
+        // Stats
         final statsList = <Map<String, String>>[];
         if (data['stats'] is List) {
           for (final item in (data['stats'] as List)) {
@@ -72,22 +84,22 @@ class _AboutPageState extends State<AboutPage> {
           }
         }
 
-        // Compute valeurs (object { text, image })
-        String? valeursText;
-        String? valeursImage;
+        // Valeurs
+        String? vText;
+        String? vImg;
         final valeurs = data['valeurs'];
         if (valeurs is Map) {
-          valeursText = valeurs['text']?.toString();
-          valeursImage = valeurs['image']?.toString();
+          vText = valeurs['text']?.toString();
+          vImg = valeurs['image']?.toString();
         }
 
         setState(() {
-          _title = (data['title'] as String?) ?? 'About';
+          _title = data['title']?.toString() ?? 'About';
           _paragraphs = paragraphs;
           _missions = missions;
           _stats = statsList;
-          _valeursText = valeursText;
-          _valeursImage = valeursImage;
+          _valeursText = vText;
+          _valeursImage = vImg;
           _loading = false;
         });
       } else {
@@ -98,10 +110,9 @@ class _AboutPageState extends State<AboutPage> {
         });
       }
     } catch (e) {
-      String message = 'Unexpected error occured. Please try again.';
+      String message = 'Unexpected error occurred. Please try again.';
       if (e.toString().contains('SocketException')) {
-        message =
-            'No internet connection. Please check your Wi-Fi or mobile data.';
+        message = 'No internet connection.';
       }
       setState(() {
         _error = message;
@@ -110,7 +121,18 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
-  //aesthetics
+  // Reload data when language changes
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final lang = context.locale.languageCode;
+
+    if (_currentLang != lang) {
+      _currentLang = lang;
+      _load();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,32 +147,57 @@ class _AboutPageState extends State<AboutPage> {
         centerTitle: true,
         backgroundColor: unselectedcolor,
         actions: [
-          Row(
-            children: [
-              const Text(
-                'FR/EN',
-                style: TextStyle(
-                  color: iconcolor,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                ),
+          Center(
+            child: Text(
+              'FR/EN',
+              style: const TextStyle(
+                color: iconcolor,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
-              IconButton(
-                icon: const Icon(Icons.language_rounded, color: iconcolor),
-                tooltip: 'Switch language',
-                onPressed: () async {
-                  final current = context.locale.languageCode;
-                  final newLocale = current == 'en'
-                      ? const Locale('fr')
-                      : const Locale('en');
-                  context.setLocale(newLocale);
-                },
-              ),
-              const SizedBox(width: 8),
-            ],
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.language_rounded, color: iconcolor),
+            tooltip: 'Switch language',
+            onPressed: () async {
+              final current = context.locale.languageCode;
+              final newLocale = current == 'en'
+                  ? const Locale('fr')
+                  : const Locale('en');
+              context.setLocale(newLocale);
+            },
+          ),
+          const SizedBox(width: 8),
+        ],
+      ),
+
+      drawer: const Navbar(),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: _onTap,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: selectedcolor,
+        unselectedItemColor: unselectedcolor,
+        backgroundColor: brand,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        iconSize: 30,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: 'About'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month_outlined),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.contact_mail),
+            label: 'Contact',
           ),
         ],
       ),
+
       body: RefreshIndicator(
         onRefresh: _load,
         child: _loading
@@ -188,7 +235,7 @@ class _AboutPageState extends State<AboutPage> {
                     const SizedBox(height: 16),
                   ],
 
-                  // Missions (collapsible)
+                  // Missions
                   if (_missions.isNotEmpty)
                     Card(
                       elevation: 0,
@@ -203,7 +250,7 @@ class _AboutPageState extends State<AboutPage> {
                         ),
                         title: Text(
                           'about.missions'.tr(),
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                         childrenPadding: const EdgeInsets.fromLTRB(
                           16,
@@ -237,7 +284,7 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                     ),
 
-                  // Values (collapsible)
+                  // Valeurs
                   if ((_valeursText != null && _valeursText!.isNotEmpty) ||
                       (_valeursImage != null && _valeursImage!.isNotEmpty))
                     Card(
@@ -253,7 +300,7 @@ class _AboutPageState extends State<AboutPage> {
                         ),
                         title: Text(
                           'about.values'.tr(),
-                          style: TextStyle(fontWeight: FontWeight.w700),
+                          style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                         childrenPadding: const EdgeInsets.fromLTRB(
                           16,
@@ -331,6 +378,7 @@ class _StatCard extends StatelessWidget {
   final String value;
   final String label;
   final Color accent;
+
   const _StatCard({
     required this.value,
     required this.label,
