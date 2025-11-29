@@ -51,7 +51,11 @@
   "polls.state": "Aucun sondage ouvert pour le moment.",
 
   "meeting": "Réunions", 
-  "meeting.scheduled": "Aucune réunion programmée pour le moment.", 
+  "meeting.none": "Aucune réunion prévue pour l`instant.",
+  "meeting.locationLabel": "Lieu : {0}",
+  "network.genericError": "Erreur réseau ou serveur. Détails : {0}",
 
-  "calendar": "Calendrier"
+  "calendar": "Calendrier", 
+
+    "navbar": "Copié dans le presse-papiers"
 }

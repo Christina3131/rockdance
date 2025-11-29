@@ -21,16 +21,13 @@ class _CalendarPhotosPageState extends State<CalendarPhotosPage> {
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, '/'); // Home
-        break;
       case 1:
         Navigator.pushReplacementNamed(context, '/about');
-        break;
       case 2:
         // Already on Calendar
         break;
       case 3:
         Navigator.pushReplacementNamed(context, '/contact');
-        break;
     }
   }
 
@@ -116,7 +113,8 @@ class _CalendarPhotosPageState extends State<CalendarPhotosPage> {
           padding: EdgeInsets.zero,
           physics: const AlwaysScrollableScrollPhysics(),
           itemCount: images.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 0),
+          separatorBuilder: (_, __) => const SizedBox.shrink(),
+
           itemBuilder: (context, i) {
             final url = images[i];
             return _CalendarImage(url: url);

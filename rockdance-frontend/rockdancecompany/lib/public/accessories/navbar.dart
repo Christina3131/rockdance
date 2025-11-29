@@ -1,9 +1,10 @@
 // lib/public/accessories/NavBar.dart
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rockdancecompany/core/utils/url_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:rockdancecompany/constants/constants.dart';
+import 'package:flutter/services.dart';
 
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
@@ -92,20 +93,21 @@ class Navbar extends StatelessWidget {
             leading: const Icon(Icons.email_outlined),
             title: const Text('info@rockdancecompany.ch'),
             onTap: () async {
-              Navigator.pop(context);
+              Navigator.pop(context); // close drawer
 
-              final Uri emailLaunchUri = Uri(
-                scheme: 'mailto',
-                path: 'info@rockdancecompany.ch',
+              await Clipboard.setData(
+                const ClipboardData(text: 'info@rockdancecompany.ch'),
               );
 
-              if (await canLaunchUrl(emailLaunchUri)) {
-                await launchUrl(emailLaunchUri);
-              } else {
-                throw 'Could not launch $emailLaunchUri';
-              }
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('navbar'.tr()),
+                  duration: Duration(seconds: 2),
+                ),
+              );
             },
           ),
+
           const Padding(
             padding: EdgeInsets.all(16.0),
             child: Text(

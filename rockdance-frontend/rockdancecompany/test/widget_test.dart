@@ -12,7 +12,7 @@ import 'package:rockdancecompany/main.dart';
 
 void main() {
   testWidgets('App builds', (WidgetTester tester) async {
-    await tester.pumpWidget(const RockDanceApp()); // ← was MyApp()
+    await tester.pumpWidget(const RockDanceApp());
 
     // simple smoke assertion
     expect(

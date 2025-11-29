@@ -26,7 +26,30 @@ class _PollsPageState extends State<PollsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('member.area'.tr()), backgroundColor: brand),
+      appBar: AppBar(
+        title: Text('members.polls'.tr()),
+        centerTitle: true,
+        backgroundColor: brand,
+        actions: [
+          TextButton(
+            onPressed: () async {
+              final current = context.locale.languageCode;
+              final newLocale = current == 'en'
+                  ? const Locale('fr')
+                  : const Locale('en');
+              await context.setLocale(newLocale);
+            },
+            child: const Text(
+              'FR / EN',
+              style: TextStyle(
+                color: iconcolor,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: FutureBuilder<List<dynamic>>(
         future: _future,
         builder: (context, snap) {

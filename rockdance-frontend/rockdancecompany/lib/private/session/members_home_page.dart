@@ -6,12 +6,35 @@ import 'package:rockdancecompany/constants/constants.dart';
 class MembersHomePage extends StatelessWidget {
   const MembersHomePage({super.key});
 
-  // UI and navigation for members' home page
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      appBar: AppBar(title: Text('members.area'.tr()), backgroundColor: brand),
+      appBar: AppBar(
+        title: Text('members.area'.tr()),
+        centerTitle: true,
+        backgroundColor: brand,
+        automaticallyImplyLeading: true,
+        actions: [
+          TextButton(
+            onPressed: () async {
+              final current = context.locale.languageCode;
+              final newLocale = current == 'en'
+                  ? const Locale('fr')
+                  : const Locale('en');
+              await context.setLocale(newLocale);
+            },
+            child: const Text(
+              'FR / EN',
+              style: TextStyle(
+                color: iconcolor,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.fromLTRB(
@@ -62,7 +85,6 @@ class HomeButton extends StatelessWidget {
     required this.route,
   });
 
-  //
   @override
   Widget build(BuildContext context) {
     return SizedBox(

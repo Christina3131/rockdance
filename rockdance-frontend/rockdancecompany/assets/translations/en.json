@@ -43,14 +43,18 @@
   "members.area": "Members Area",
   "members.polls": "Polls",
   "members.calendar": "Members Calendar",
-  "members.meetings": "meetings",
+  "members.meetings": "Meetings",
 
   "polls.state": "No open polls right now.",
 
   "meeting": "Meetings", 
-  "meeting.scheduled": "No meetings scheduled yet.", 
+  "meeting.none": "No meetings planned yet.",
+  "meeting.locationLabel": "Location: {0}",
+  "network.genericError": "Network or server error. Details: {0}",
 
-  "calendar": "Calendar"
+  "calendar": "Calendar",
+
+  "navbar": "Copied to clipboard"
 }
 
 

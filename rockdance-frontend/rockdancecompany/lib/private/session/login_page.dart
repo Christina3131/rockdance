@@ -1,6 +1,7 @@
 // lib/private/session/login_page.dart
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // for saving email/pass
 import 'auth_api.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,7 +16,18 @@ class _LoginPageState extends State<LoginPage> {
   final _pass = TextEditingController();
   bool _busy = false;
 
-  // Clean up controllers when the widget is disposed
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedCredentials();
+  }
+
+  Future<void> _loadSavedCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    _email.text = prefs.getString('last_email') ?? '';
+    _pass.text = prefs.getString('last_password') ?? '';
+  }
+
   @override
   void dispose() {
     _email.dispose();
@@ -23,22 +35,27 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  // Handles the login process
   Future<void> _doLogin() async {
     if (!_form.currentState!.validate()) return;
     setState(() => _busy = true);
+
     try {
-      // normalize email before sending
       final email = _email.text.trim().toLowerCase();
       final pass = _pass.text;
 
       await AuthApi().login(email, pass);
+
+      // Save for next time auto-fill
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('last_email', email);
+      await prefs.setString('last_password', pass);
 
       if (!mounted) return;
       Navigator.pushReplacementNamed(context, '/members');
     } on AuthException catch (e) {
       if (!mounted) return;
       String msg;
+
       switch (e.code) {
         case 'not_active':
           msg = 'login.approve'.tr();
@@ -49,26 +66,18 @@ class _LoginPageState extends State<LoginPage> {
         default:
           msg = e.hint?.isNotEmpty == true ? e.hint! : 'login.failed'.tr();
       }
+
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } catch (e) {
-      String message = 'Unexpected error occured. Please try again later.';
-      if (e.toString().contains('SocketException')) {
-        message =
-            'No internet connection. Please check your Wi-Fi or mobile data.';
-      } else if (e.toString().contains('TimeoutException')) {
-        message = 'The server is not responding. Please try again later.';
-      }
-
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Unexpected error, try again later')),
+      );
     } finally {
       if (mounted) setState(() => _busy = false);
     }
   }
 
-  // login page UI
   @override
   Widget build(BuildContext context) {
     return Scaffold(

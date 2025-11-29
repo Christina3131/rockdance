@@ -6,30 +6,62 @@ import 'package:rockdancecompany/constants/constants.dart';
 class MembersCalendarPage extends StatelessWidget {
   const MembersCalendarPage({super.key});
 
-  // Image URLs for the calendar photos
-  static const _imageUrls = [
+  // Image URLs for the calendar photos french (FR)
+  static const _imageUrlsFr = [
     'https://api.rockdancecompany.ch/calendar/img1.png',
     'https://api.rockdancecompany.ch/calendar/img2.png',
     'https://api.rockdancecompany.ch/calendar/img3.png',
     'https://api.rockdancecompany.ch/calendar/img4.png',
-    'https://api.rockdancecompany.ch/calendar/img5.png',
+  ];
+
+  // Image URLs for the calendar photos english (EN)
+  static const _imageUrlsEn = [
+    'https://api.rockdancecompany.ch/calendar/img10.png',
+    'https://api.rockdancecompany.ch/calendar/img11.png',
+    'https://api.rockdancecompany.ch/calendar/img12.png',
+    'https://api.rockdancecompany.ch/calendar/img13.png',
   ];
 
   @override
   Widget build(BuildContext context) {
+    final lang = context.locale.languageCode;
+    final images = lang == 'fr' ? _imageUrlsFr : _imageUrlsEn;
+
     return Scaffold(
-      appBar: AppBar(title: Text('calendar'.tr()), backgroundColor: brand),
+      appBar: AppBar(
+        title: Text('calendar'.tr()),
+        centerTitle: true,
+        backgroundColor: unselectedcolor,
+        actions: [
+          TextButton(
+            onPressed: () async {
+              final current = context.locale.languageCode;
+              final newLocale = current == 'en'
+                  ? const Locale('fr')
+                  : const Locale('en');
+              await context.setLocale(newLocale);
+            },
+            child: const Text(
+              'FR / EN',
+              style: TextStyle(
+                color: iconcolor,
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: () async {
           await Future<void>.delayed(const Duration(milliseconds: 400));
         },
-        child: ListView.separated(
+        child: ListView.builder(
           padding: EdgeInsets.zero,
           physics: const AlwaysScrollableScrollPhysics(),
-          itemCount: _imageUrls.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
+          itemCount: images.length,
           itemBuilder: (context, i) {
-            final url = _imageUrls[i];
+            final url = images[i];
             return _CalendarImage(url: url);
           },
         ),
@@ -38,45 +70,33 @@ class MembersCalendarPage extends StatelessWidget {
   }
 }
 
-// Widget to display a calendar image from a URL
 class _CalendarImage extends StatelessWidget {
-  const _CalendarImage({required this.url});
   final String url;
+  const _CalendarImage({required this.url});
 
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context);
     final screenWidthPx = (mq.size.width * mq.devicePixelRatio).round();
 
-    return Container(
-      color: selectedcolor,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Image.network(
-            url,
-            // Decode close to the physical display width to avoid blurry scaling
-            cacheWidth: screenWidthPx,
-            width: double.infinity,
-            fit: BoxFit.fitWidth,
-            filterQuality: FilterQuality.high, // better sampling
-            // loading
-            loadingBuilder: (context, child, progress) {
-              if (progress == null) return child;
-              return const Center(child: CircularProgressIndicator());
-            },
-
-            errorBuilder: (context, error, stack) => SizedBox(
-              height: mq.size.height * 0.6,
-              child: const Center(
-                child: Icon(
-                  Icons.broken_image_outlined,
-                  size: 48,
-                  color: unselectedcolor,
-                ),
-              ),
-            ),
-          );
-        },
+    return Image.network(
+      url,
+      width: double.infinity,
+      cacheWidth: screenWidthPx,
+      fit: BoxFit.fitWidth,
+      filterQuality: FilterQuality.high,
+      loadingBuilder: (context, child, progress) => progress == null
+          ? child
+          : const Center(child: CircularProgressIndicator()),
+      errorBuilder: (_, __, ___) => SizedBox(
+        height: mq.size.height * 0.6,
+        child: const Center(
+          child: Icon(
+            Icons.broken_image_outlined,
+            size: 48,
+            color: unselectedcolor,
+          ),
+        ),
       ),
     );
   }
